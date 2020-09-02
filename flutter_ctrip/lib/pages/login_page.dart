@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/**
+ * 登录页
+ */
 class LoginPage extends StatefulWidget {
   // 上一个页面传值
   final String model; //SecondController的model属性
@@ -21,12 +24,40 @@ class _State extends State<LoginPage> {
 
     // 获取LoginPage  model 的值
     print(widget.model);
+
+    // 网络请求
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+  }
+
+  // 账号输入框
+  Widget _accountTextField() {
+    return TextField(
+      obscureText: false,
+      decoration: InputDecoration(hintText: "请输入账号"),
+      onChanged: (value) {
+        setState(() {
+          this._username = value;
+        });
+      },
+    );
+  }
+
+  // 密码输入框
+  Widget _passwordTextField() {
+    return TextField(
+      obscureText: true,
+      decoration: InputDecoration(hintText: "请输入密码"),
+      onChanged: (value) {
+        setState(() {
+          this._password = value;
+        });
+      },
+    );
   }
 
   @override
@@ -37,39 +68,21 @@ class _State extends State<LoginPage> {
       ),
       body: Column(
         children: [
-          TextField(
-            obscureText: false,
-            decoration: InputDecoration(hintText: "请输入账号"),
-            onChanged: (value) {
-              setState(() {
-                this._username = value;
-              });
-            },
-          ),
+          _accountTextField(),
           SizedBox(
             height: 20,
           ),
-          TextField(
-            obscureText: true,
-            decoration: InputDecoration(hintText: "请输入密码"),
-            onChanged: (value) {
-              setState(() {
-                this._password = value;
-              });
-            },
-          ),
+          _passwordTextField(),
           Container(
             width: 300,
             child: RaisedButton(
               child: Text("登录"),
               color: Colors.blue,
-              onPressed: () {
-                /*
-                SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+              onPressed: () async {
+                SharedPreferences sharedPreferences =
+                    await SharedPreferences.getInstance();
                 sharedPreferences.setString('username', _username);
                 sharedPreferences.setString('password', _password);
-                */
-                //ToastUtil.showinfo(context, "登录成功");
               },
             ),
           ),

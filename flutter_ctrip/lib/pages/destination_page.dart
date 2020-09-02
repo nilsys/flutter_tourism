@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+/**
+ * 目的地
+ */
 class DestinationPage extends StatefulWidget {
   @override
   _State createState() => _State();

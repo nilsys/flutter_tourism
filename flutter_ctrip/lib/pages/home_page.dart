@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+/**
+ * 首页
+ */
 class HomePage extends StatefulWidget {
   @override
   _State createState() => _State();
-  
 }
 
 class _State extends State<HomePage> {

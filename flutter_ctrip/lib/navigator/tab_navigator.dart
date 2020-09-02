@@ -4,6 +4,9 @@ import 'package:flutter_ctrip/pages/home_page.dart';
 import 'package:flutter_ctrip/pages/my_page.dart';
 import 'package:flutter_ctrip/pages/travel_page.dart';
 
+/**
+ * 底部导航页
+ */
 class TabNavigator extends StatefulWidget {
   @override
   _State createState() => _State();

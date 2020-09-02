@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+/**
+ * 旅游页
+ */
 class TravelPage extends StatefulWidget {
   @override
   _State createState() => _State();
