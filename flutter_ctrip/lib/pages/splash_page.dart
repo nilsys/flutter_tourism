@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ctrip/util/navigator_util.dart';
@@ -15,20 +16,23 @@ class SplashPage extends StatefulWidget {
 }
 
 class _State extends State<SplashPage> {
-  // 定时器，3s自动跳转
-  int count = 0;
-
+  int timeCount = 0;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
+    // 定时器，3s自动跳转
+    int count = 0;
     const period = const Duration(seconds: 1);
     print('currentTime=' + DateTime.now().toString());
     Timer.periodic(period, (timer) {
       //  到时回调
       print('afterTimer=' + DateTime.now().toString());
       count++;
+      setState(() {
+        timeCount = 3 - count;
+      });
       if (count >= 3) {
         //  取消定时器，避免无限回调
         timer.cancel();
@@ -51,14 +55,23 @@ class _State extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context, width: 750, height: 1334, allowFontScaling: false);
+    /*
+    new Image.network(
+            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2035750262,1361055912&fm=26&gp=0.jpg",
+            fit: BoxFit.cover,
+          )
+     */
     return new Stack(
       alignment: const Alignment(1.0, -1.0), // 右上角对齐
       children: [
         new ConstrainedBox(
           constraints: BoxConstraints.expand(),
-          child: new Image.network(
-            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2035750262,1361055912&fm=26&gp=0.jpg",
+          child: CachedNetworkImage(
+            imageUrl:
+                "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2035750262,1361055912&fm=26&gp=0.jpg",
             fit: BoxFit.cover,
+            placeholder: (context, url) => new CircularProgressIndicator(),
+            errorWidget: (context, url, error) => new Icon(Icons.error),
           ),
         ),
         new Padding(
@@ -68,7 +81,7 @@ class _State extends State<SplashPage> {
 //            padding: EdgeInsets.all(0.0),
             color: Colors.grey,
             child: new Text(
-              "$count 跳过广告",
+              "$timeCount 跳过广告",
               style: new TextStyle(color: Colors.white, fontSize: 12.0),
             ),
           ),

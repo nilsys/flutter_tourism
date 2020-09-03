@@ -5,14 +5,50 @@ import 'package:flutter_screenutil/screenutil.dart';
 /// 缓存网络图片
 class CachedImageBox extends StatelessWidget {
   final String url;
-  final double width;
-  final double height;
+  final BoxFit fit;
+  final String placeholder;
+  final String error;
 
   CachedImageBox(String s,
-      {this.url, this.width = double.infinity, this.height = double.infinity});
+      {this.url, this.fit = BoxFit.contain, this.placeholder, this.error});
 
   @override
   Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: this.url,
+      fit: this.fit,
+      placeholder: (context, url) {
+        if (placeholder == null) {
+          return Container(
+            color: Colors.grey[350],
+            alignment: Alignment.center,
+            child: Text(
+              'Loading...',
+              style: TextStyle(
+                  fontSize: ScreenUtil().setSp(26.0), color: Colors.white),
+            ),
+          );
+        } else {
+          return Image.asset(this.placeholder);
+        }
+      },
+      errorWidget: (context, url, error) {
+        if (error == null) {
+          return Container(
+            color: Colors.grey[350],
+            alignment: Alignment.center,
+            child: Text(
+              'error',
+              style: TextStyle(
+                  fontSize: ScreenUtil().setSp(26.0), color: Colors.white),
+            ),
+          );
+        } else {
+          return Image.asset(this.error);
+        }
+      },
+    );
+    /*
     return CachedNetworkImage(
       imageUrl: this.url,
       fit: BoxFit.contain,
@@ -32,5 +68,6 @@ class CachedImageBox extends StatelessWidget {
         );
       },
     );
+    */
   }
 }
