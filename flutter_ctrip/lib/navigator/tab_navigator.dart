@@ -46,7 +46,8 @@ class _State extends State<TabNavigator>
           TravelPage(),
           MyPage(),
         ],
-        physics: NeverScrollableScrollPhysics(),
+        physics:
+            NeverScrollableScrollPhysics(), // 列表中嵌套gridView时禁止gridView的滚动事件
       ),
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
