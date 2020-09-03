@@ -60,79 +60,33 @@ class _State extends State<TabNavigator>
             });
           },
           items: [
-            BottomNavigationBarItem(
-              icon: Image.asset(
-                'images/xiecheng.png',
-                width: 22,
-                height: 22,
-              ),
-              activeIcon: Image.asset(
-                'images/xiecheng_active.png',
-                width: 22,
-                height: 22,
-              ),
-              title: Text(
-                '首页',
-                style: TextStyle(
-                  color: _currentIndex != 0 ? _defaultColor : _activeColor,
-                ),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset(
-                'images/mude.png',
-                width: 24,
-                height: 24,
-              ),
-              activeIcon: Image.asset(
-                'images/mude_active.png',
-                width: 24,
-                height: 24,
-              ),
-              title: Text(
-                '目的地',
-                style: TextStyle(
-                  color: _currentIndex != 1 ? _defaultColor : _activeColor,
-                ),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset(
-                'images/lvpai.png',
-                width: 23,
-                height: 23,
-              ),
-              activeIcon: Image.asset(
-                'images/lvpai_active.png',
-                width: 23,
-                height: 23,
-              ),
-              title: Text(
-                '旅拍',
-                style: TextStyle(
-                  color: _currentIndex != 2 ? _defaultColor : _activeColor,
-                ),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset(
-                'images/wode.png',
-                width: 23,
-                height: 23,
-              ),
-              activeIcon: Image.asset(
-                'images/wode_active.png',
-                width: 23,
-                height: 23,
-              ),
-              title: Text(
-                '我的',
-                style: TextStyle(
-                  color: _currentIndex != 3 ? _defaultColor : _activeColor,
-                ),
-              ),
-            ),
+            _tabBarItem(
+                "首页", "images/xiecheng.png", "images/xiecheng_active.png", 0),
+            _tabBarItem("目的地", "images/mude.png", "images/mude_active.png", 1),
+            _tabBarItem("旅拍", "images/lvpai.png", "images/lvpai_active.png", 2),
+            _tabBarItem("我的", "images/wode.png", "images/wode_active.png", 3),
           ]),
+    );
+  }
+
+  _tabBarItem(String title, String imageURL, String activeImageURL, int index) {
+    return BottomNavigationBarItem(
+      icon: Image.asset(
+        imageURL,
+        width: 22,
+        height: 22,
+      ),
+      activeIcon: Image.asset(
+        activeImageURL,
+        width: 22,
+        height: 22,
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          color: _currentIndex != index ? _defaultColor : _activeColor,
+        ),
+      ),
     );
   }
 
