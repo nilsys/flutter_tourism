@@ -1,16 +1,15 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 
 /// 缓存网络图片
-class CachedImageBox extends StatelessWidget{
-
+class CachedImageBox extends StatelessWidget {
   final String url;
   final double width;
   final double height;
 
-  CachedImageBox({this.url,this.width = double.infinity,this.height = double.infinity});
+  CachedImageBox(String s,
+      {this.url, this.width = double.infinity, this.height = double.infinity});
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +27,10 @@ class CachedImageBox extends StatelessWidget{
           child: Text(
             'Loading...',
             style: TextStyle(
-                fontSize: ScreenUtil().setSp(26.0),
-                color: Colors.white),
+                fontSize: ScreenUtil().setSp(26.0), color: Colors.white),
           ),
         );
       },
     );
   }
-
 }

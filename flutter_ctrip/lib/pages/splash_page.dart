@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ctrip/util/navigator_util.dart';
 import 'package:flutter_ctrip/navigator/tab_navigator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_ctrip/widget/cached_image.dart';
 
 /**
  * 闪屏页
@@ -14,13 +15,14 @@ class SplashPage extends StatefulWidget {
 }
 
 class _State extends State<SplashPage> {
+  // 定时器，3s自动跳转
+  int count = 0;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    // 定时器，3s自动跳转
-    int count = 0;
     const period = const Duration(seconds: 1);
     print('currentTime=' + DateTime.now().toString());
     Timer.periodic(period, (timer) {
@@ -49,8 +51,29 @@ class _State extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context, width: 750, height: 1334, allowFontScaling: false);
-    return Container(
-      color: const Color(0xFF0099ff),
+    return new Stack(
+      alignment: const Alignment(1.0, -1.0), // 右上角对齐
+      children: [
+        new ConstrainedBox(
+          constraints: BoxConstraints.expand(),
+          child: new Image.network(
+            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2035750262,1361055912&fm=26&gp=0.jpg",
+            fit: BoxFit.cover,
+          ),
+        ),
+        new Padding(
+          padding: new EdgeInsets.fromLTRB(0.0, 30.0, 10.0, 0.0),
+          child: new FlatButton(
+            onPressed: () {},
+//            padding: EdgeInsets.all(0.0),
+            color: Colors.grey,
+            child: new Text(
+              "$count 跳过广告",
+              style: new TextStyle(color: Colors.white, fontSize: 12.0),
+            ),
+          ),
+        )
+      ],
     );
   }
 }

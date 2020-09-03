@@ -44,7 +44,7 @@ dependencies:
   # 跳转外部链接、拨打电话等
   url_launcher: ^5.0.2
   # 图片缓存
-  cached_network_image: ^0.8.0
+  cached_network_image: ^2.3.1
   # 手机网络监听
   connectivity: ^0.4.3+1
   # 数据库
