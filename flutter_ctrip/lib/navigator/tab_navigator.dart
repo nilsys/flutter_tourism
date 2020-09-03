@@ -50,6 +50,7 @@ class _State extends State<TabNavigator>
       ),
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
+          type: BottomNavigationBarType.fixed,
           onTap: (index) {
             _controller.animateToPage(index,
                 duration: Duration(milliseconds: 260), curve: Curves.easeIn);
