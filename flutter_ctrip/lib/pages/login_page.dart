@@ -5,9 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
  * 登录页
  */
 class LoginPage extends StatefulWidget {
-  // 上一个页面传值
-  final String model; //SecondController的model属性
-  LoginPage({Key key, @required this.model}) : super(key: key); //接收传递过来的值
+  LoginPage({Key key, this.arguments}) : super(key: key);
+  final Map arguments;
 
   @override
   _State createState() => _State();

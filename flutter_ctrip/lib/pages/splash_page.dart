@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ctrip/util/navigator_util.dart';
 import 'package:flutter_ctrip/navigator/tab_navigator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_ctrip/widget/cached_image.dart';
+import 'package:flutter_ctrip/pages/newfeatures_page.dart';
+import 'package:flutter_ctrip/util/app_util.dart';
 
 /**
  * 闪屏页
@@ -17,6 +18,8 @@ class SplashPage extends StatefulWidget {
 
 class _State extends State<SplashPage> {
   int timeCount = 0;
+  Timer _timer;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -26,7 +29,7 @@ class _State extends State<SplashPage> {
     int count = 0;
     const period = const Duration(seconds: 1);
     print('currentTime=' + DateTime.now().toString());
-    Timer.periodic(period, (timer) {
+    _timer = Timer.periodic(period, (timer) {
       //  到时回调
       print('afterTimer=' + DateTime.now().toString());
       count++;
@@ -48,8 +51,22 @@ class _State extends State<SplashPage> {
     super.dispose();
   }
 
-  _toRootPage() {
-    NavigatorUtil.push(context, TabNavigator());
+  _toRootPage() async {
+    String currentVersion = await AppUtil.getVersion();
+    String storageVersion = await AppUtil.getOldVersion();
+    print(currentVersion + '/n' + storageVersion);
+    if (storageVersion == currentVersion) {
+      //版本号相同显示首页
+      NavigatorUtil.push(context, TabNavigator());
+    } else {
+      //版本号不一致， 显示引导页
+      NavigatorUtil.push(context, NewfeaturesPage(), callBack: (res) {
+        print("callback" + res);
+        NavigatorUtil.push(context, TabNavigator());
+        //本地存储新的版本号
+        AppUtil.setNewVersion();
+      });
+    }
   }
 
   @override
@@ -77,8 +94,11 @@ class _State extends State<SplashPage> {
         new Padding(
           padding: new EdgeInsets.fromLTRB(0.0, 30.0, 10.0, 0.0),
           child: new FlatButton(
-            onPressed: () {},
-//            padding: EdgeInsets.all(0.0),
+            onPressed: () {
+              _timer.cancel();
+              _timer = null;
+              _toRootPage();
+            },
             color: Colors.grey,
             child: new Text(
               "$timeCount 跳过广告",
