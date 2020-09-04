@@ -6,8 +6,11 @@ import 'package:flutter_color_plugin/flutter_color_plugin.dart';
 import 'package:flutter_ctrip/pages/splash_page.dart';
 import 'package:flutter_ctrip/pages/login_page.dart';
 import 'package:flutter_ctrip/provider/app_store.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_ctrip/provider/provider_manager.dart';
+
+import 'generated/i18n.dart';
 
 void main() async {
   /*
@@ -39,10 +42,14 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'FCtrip',
+          localizationsDelegates: [
+            I18n.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: I18n.delegate.supportedLocales,
           theme: Provider.of<AppStore>(context, listen: false).themeData,
-          home: LoginPage(
-            arguments: {},
-          ),
+          home: SplashPage(),
         );
       }),
     );

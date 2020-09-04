@@ -90,6 +90,62 @@ class _State extends State<NewfeaturesPage> with WidgetsBindingObserver {
     );
   }
 
+  Widget _skipButton() {
+    return new Positioned(
+      //给view添加点击事件，使用GestureDetector便签包裹
+      child: new GestureDetector(
+        child: new Container(
+          padding:
+              const EdgeInsets.only(left: 10, top: 2, right: 10, bottom: 2),
+          decoration: new ShapeDecoration(
+            color: !isClicking1 ? Colors.white : Color(0xff898989),
+            shape: StadiumBorder(
+                side: BorderSide(
+                    color: Color(0xff898989),
+                    style: BorderStyle.solid,
+                    width: 1)),
+          ),
+          child: new Text('跳过'),
+        ),
+        onTap: () {
+          print('触发跳过');
+          //Navigator.of(context).pop('测试');
+          Routers.pushAndRemove(context, "/tabnavigator");
+          AppUtil.setNewVersion();
+        },
+        onTapUp: (TapUpDetails) {
+          print('触发onTapUp');
+          upDataButtonState(false);
+        },
+        onTapDown: (TapUpDetails) {
+          print('触发onTapDown');
+          upDataButtonState(true);
+        },
+        onTapCancel: () {
+          print('触发onTapCancel');
+          upDataButtonState(false);
+        },
+      ),
+      top: 10 + statebar_height,
+      right: 10,
+    );
+  }
+
+  Widget _startOpenButton() {
+    return new Positioned(
+      child: new GestureDetector(
+        child: Image.asset('images/open_now.png'),
+        onTap: () {
+          print('点击了立即开启');
+        },
+      ),
+      height: pageViewIndex == 2 ? width / 10 : 0,
+      bottom: width / 10 - 2,
+      left: 0,
+      right: 0,
+    );
+  }
+
   //StateFulWidget更新state，从而更新UI
   void upDataButtonState(bool clicked) {
     setState(() {
@@ -121,56 +177,8 @@ class _State extends State<NewfeaturesPage> with WidgetsBindingObserver {
           top: 0,
           bottom: 0,
         ),
-        new Positioned(
-          //给view添加点击事件，使用GestureDetector便签包裹
-          child: new GestureDetector(
-            child: new Container(
-              padding:
-                  const EdgeInsets.only(left: 10, top: 2, right: 10, bottom: 2),
-              decoration: new ShapeDecoration(
-                color: !isClicking1 ? Colors.white : Color(0xff898989),
-                shape: StadiumBorder(
-                    side: BorderSide(
-                        color: Color(0xff898989),
-                        style: BorderStyle.solid,
-                        width: 1)),
-              ),
-              child: new Text('跳过'),
-            ),
-            onTap: () {
-              print('触发跳过');
-              //Navigator.of(context).pop('测试');
-              Routers.pushAndRemove(context, "/tabnavigator");
-              AppUtil.setNewVersion();
-            },
-            onTapUp: (TapUpDetails) {
-              print('触发onTapUp');
-              upDataButtonState(false);
-            },
-            onTapDown: (TapUpDetails) {
-              print('触发onTapDown');
-              upDataButtonState(true);
-            },
-            onTapCancel: () {
-              print('触发onTapCancel');
-              upDataButtonState(false);
-            },
-          ),
-          top: 10 + statebar_height,
-          right: 10,
-        ),
-        new Positioned(
-          child: new GestureDetector(
-            child: Image.asset('images/open_now.png'),
-            onTap: () {
-              print('点击了立即开启');
-            },
-          ),
-          height: pageViewIndex == 2 ? width / 10 : 0,
-          bottom: width / 10 - 2,
-          left: 0,
-          right: 0,
-        )
+        _skipButton(),
+        _startOpenButton()
       ],
     ));
   }

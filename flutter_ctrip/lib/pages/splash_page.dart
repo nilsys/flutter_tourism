@@ -82,6 +82,37 @@ class _State extends State<SplashPage> {
     }
   }
 
+  Widget _backgroundContent() {
+    return new ConstrainedBox(
+      constraints: BoxConstraints.expand(),
+      child: CachedNetworkImage(
+        imageUrl:
+            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2035750262,1361055912&fm=26&gp=0.jpg",
+        fit: BoxFit.cover,
+        placeholder: (context, url) => new CircularProgressIndicator(),
+        errorWidget: (context, url, error) => new Icon(Icons.error),
+      ),
+    );
+  }
+
+  Widget _skipButton() {
+    return new Padding(
+      padding: new EdgeInsets.fromLTRB(0.0, 30.0, 10.0, 0.0),
+      child: new FlatButton(
+        onPressed: () {
+          _timer.cancel();
+          _timer = null;
+          _toRootPage();
+        },
+        color: Colors.grey,
+        child: new Text(
+          "$timeCount 跳过广告",
+          style: new TextStyle(color: Colors.white, fontSize: 12.0),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context, width: 750, height: 1334, allowFontScaling: false);
@@ -93,33 +124,7 @@ class _State extends State<SplashPage> {
      */
     return new Stack(
       alignment: const Alignment(1.0, -1.0), // 右上角对齐
-      children: [
-        new ConstrainedBox(
-          constraints: BoxConstraints.expand(),
-          child: CachedNetworkImage(
-            imageUrl:
-                "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2035750262,1361055912&fm=26&gp=0.jpg",
-            fit: BoxFit.cover,
-            placeholder: (context, url) => new CircularProgressIndicator(),
-            errorWidget: (context, url, error) => new Icon(Icons.error),
-          ),
-        ),
-        new Padding(
-          padding: new EdgeInsets.fromLTRB(0.0, 30.0, 10.0, 0.0),
-          child: new FlatButton(
-            onPressed: () {
-              _timer.cancel();
-              _timer = null;
-              _toRootPage();
-            },
-            color: Colors.grey,
-            child: new Text(
-              "$timeCount 跳过广告",
-              style: new TextStyle(color: Colors.white, fontSize: 12.0),
-            ),
-          ),
-        )
-      ],
+      children: [_backgroundContent(), _skipButton()],
     );
   }
 }

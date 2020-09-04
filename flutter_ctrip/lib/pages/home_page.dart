@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ctrip/generated/i18n.dart';
 
 /**
  * 首页
@@ -12,7 +13,7 @@ class _State extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('首页'),
+      child: Text(I18n.of(context).text),
     );
   }
 }

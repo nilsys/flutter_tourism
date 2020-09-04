@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_ctrip/viewmodel/loginViewModel.dart';
@@ -26,7 +27,6 @@ class _State extends State<LoginPage> {
 
     // 获取LoginPage  model 的值
     print(widget.arguments);
-
     // 网络请求
   }
 
@@ -64,6 +64,28 @@ class _State extends State<LoginPage> {
     );
   }
 
+  Widget _loginButton() {
+    return Container(
+      width: 300,
+      child: RaisedButton(
+        child: Text("登录"),
+        color: Colors.blue,
+        onPressed: () async {
+          loginVM.loginHandel(context);
+        },
+      ),
+    );
+  }
+
+  Widget _registerButton() {
+    return RaisedButton(
+      child: Text("注册账号"),
+      color: Colors.red,
+      textColor: Colors.white,
+      onPressed: () {},
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     loginVM = Provider.of<LoginViewModel>(context);
@@ -75,25 +97,11 @@ class _State extends State<LoginPage> {
         children: [
           _accountTextField(),
           SizedBox(
-            height: 20,
+            height: 5,
           ),
           _passwordTextField(),
-          Container(
-            width: 300,
-            child: RaisedButton(
-              child: Text("登录"),
-              color: Colors.blue,
-              onPressed: () async {
-                loginVM.loginHandel(context);
-              },
-            ),
-          ),
-          RaisedButton(
-            child: Text("注册账号"),
-            color: Colors.red,
-            textColor: Colors.white,
-            onPressed: () {},
-          )
+          _loginButton(),
+          _registerButton()
         ],
       ),
     );
