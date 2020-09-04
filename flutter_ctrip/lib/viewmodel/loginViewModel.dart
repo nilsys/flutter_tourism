@@ -13,11 +13,7 @@ class LoginViewModel extends ChangeNotifier {
     var params = Map<String, String>();
     params['mobile'] = userNameController.text;
     params['password'] = passwordController.text;
-
-    RequestManagement.internal().toLogin(params, (result) {
-
-    }, (DioError erorr) {
-
-    });
+    RequestManagement.internal()
+        .toLogin(params, (result) {}, (DioError erorr) {});
   }
 }

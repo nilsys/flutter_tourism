@@ -16,8 +16,8 @@ class LoginPage extends StatefulWidget {
 
 class _State extends State<LoginPage> {
   LoginViewModel loginVM;
-  var _username = "";
-  var _password = "";
+  //var _username = "";
+  //var _password = "";
 
   @override
   void initState() {
@@ -40,10 +40,11 @@ class _State extends State<LoginPage> {
   Widget _accountTextField() {
     return TextField(
       obscureText: false,
+      controller: loginVM.userNameController,
       decoration: InputDecoration(hintText: "请输入账号"),
       onChanged: (value) {
         setState(() {
-          this._username = value;
+          //this._username = value;
         });
       },
     );
@@ -53,10 +54,11 @@ class _State extends State<LoginPage> {
   Widget _passwordTextField() {
     return TextField(
       obscureText: true,
+      controller: loginVM.passwordController,
       decoration: InputDecoration(hintText: "请输入密码"),
       onChanged: (value) {
         setState(() {
-          this._password = value;
+          //this._password = value;
         });
       },
     );
@@ -82,10 +84,7 @@ class _State extends State<LoginPage> {
               child: Text("登录"),
               color: Colors.blue,
               onPressed: () async {
-                SharedPreferences sharedPreferences =
-                    await SharedPreferences.getInstance();
-                sharedPreferences.setString('username', _username);
-                sharedPreferences.setString('password', _password);
+                loginVM.loginHandel(context);
               },
             ),
           ),

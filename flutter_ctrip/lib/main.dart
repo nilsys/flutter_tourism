@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_color_plugin/flutter_color_plugin.dart';
 import 'package:flutter_ctrip/pages/splash_page.dart';
+import 'package:flutter_ctrip/pages/login_page.dart';
 import 'package:flutter_ctrip/provider/app_store.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_ctrip/provider/provider_manager.dart';
@@ -39,7 +40,9 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'FCtrip',
           theme: Provider.of<AppStore>(context, listen: false).themeData,
-          home: SplashPage(),
+          home: LoginPage(
+            arguments: {},
+          ),
         );
       }),
     );

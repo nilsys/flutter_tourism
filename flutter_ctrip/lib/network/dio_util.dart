@@ -48,15 +48,6 @@ class DioUtil {
 
   Future<Map<String, dynamic>> sendRequest(
       Request request, Function callback, Function errorCallBack) {
-    String method = '';
-    switch (request.requestMethod) {
-      case Method.GET:
-        method = MethodType.get;
-        break;
-      case Method.POST:
-        method = MethodType.post;
-        break;
-    }
     BaseOptions options = getDefOptions();
     options.connectTimeout = request.connectTimeout;
     options.receiveTimeout = request.receiveTimeout;
@@ -64,11 +55,7 @@ class DioUtil {
       options.headers = request.header;
     }
     setOptions(options);
-    return _request(request.url,
-        method: method,
-        params: request.params,
-        callBack: callback,
-        errorCallBack: errorCallBack);
+    return _request(request, callBack: callback, errorCallBack: errorCallBack);
   }
 
   /**
@@ -97,45 +84,71 @@ class DioUtil {
       }
       dio.options = options;
       Response response = await dio.post(request.url, data: request.formData);
+      print("请求链接：" +
+          request.url +
+          "请求参数：" +
+          ((request.params is Map)
+              ? json.encode(request.params)
+              : request.params));
       if (response.data is Map) {
         if (callBack != null) {
           callBack(response.data);
         }
+        print("请求链接：" + request.url + "响应结果：" + response.data.toString());
         return response.data;
       } else {
         if (callBack != null) {
           callBack(json.decode(response.data.toString()));
         }
+        print("请求链接：" + request.url + "响应结果：" + response.data.toString());
         return json.decode(response.data.toString());
       }
     } on DioError catch (e) {
+      print("请求链接：" + request.url + "错误：" + e.message);
       _handleHttpError(errorCallBack, e);
       return null;
     }
   }
 
-  Future<Map<String, dynamic>> _request(String path,
-      {String method,
-      Map<String, dynamic> params,
-      Function callBack,
-      Function errorCallBack}) async {
+  Future<Map<String, dynamic>> _request(Request request,
+      {Function callBack, Function errorCallBack}) async {
     try {
-      Response response = await _dio.request(path,
-          data: params,
-          queryParameters: params,
-          options: Options(method: method));
+      Response response;
+      String method = '';
+      switch (request.requestMethod) {
+        case Method.GET:
+          method = MethodType.get;
+          response = await _dio.request(request.url,
+              queryParameters: request.params,
+              options: Options(method: method));
+          break;
+        case Method.POST:
+          method = MethodType.post;
+          response = await _dio.request(request.url,
+              data: request.params, options: Options(method: method));
+          break;
+      }
+      print("请求链接：" +
+          request.url +
+          "请求参数：" +
+          ((request.params is Map)
+              ? json.encode(request.params)
+              : request.params));
       if (response.data is Map) {
         if (callBack != null) {
           callBack(response.data);
         }
+        print("请求链接：" + request.url + "响应结果：" + response.data.toString());
         return response.data;
       } else {
         if (callBack != null) {
           callBack(json.decode(response.data.toString()));
         }
+        print("请求链接：" + request.url + "响应结果：" + response.data.toString());
         return json.decode(response.data.toString());
       }
     } on DioError catch (e) {
+      print("请求链接：" + request.url + "错误：" + e.message);
       _handleHttpError(errorCallBack, e);
       return null;
     }
