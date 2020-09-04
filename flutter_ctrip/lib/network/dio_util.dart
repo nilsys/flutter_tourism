@@ -46,9 +46,9 @@ class DioUtil {
     _dio.options = _options;
   }
 
-  Future<Map<String, dynamic>> sendRequest(Request tRequest) {
+  Future<Map<String, dynamic>> sendRequest(Request request) {
     String method = '';
-    switch (tRequest.requestMethod) {
+    switch (request.requestMethod) {
       case Method.GET:
         method = MethodType.get;
         break;
@@ -57,13 +57,13 @@ class DioUtil {
         break;
     }
     BaseOptions options = getDefOptions();
-    options.connectTimeout = tRequest.connectTimeout;
-    options.receiveTimeout = tRequest.receiveTimeout;
-    if (tRequest.header != null) {
-      options.headers = tRequest.header;
+    options.connectTimeout = request.connectTimeout;
+    options.receiveTimeout = request.receiveTimeout;
+    if (request.header != null) {
+      options.headers = request.header;
     }
     setOptions(options);
-    return request(tRequest.url, method: method, params: tRequest.params);
+    return _request(request.url, method: method, params: request.params);
   }
 
   /**
@@ -80,9 +80,16 @@ class DioUtil {
     ]
  });
    */
-  Future<Map<String, dynamic>> form(Request tRequest) async {
+  Future<Map<String, dynamic>> form(Request request) async {
     var dio = new Dio();
-    Response response = await dio.post(tRequest.url, data: tRequest.formData);
+    BaseOptions options = getDefOptions();
+    options.connectTimeout = request.connectTimeout;
+    options.receiveTimeout = request.receiveTimeout;
+    if (request.header != null) {
+      options.headers = request.header;
+    }
+    dio.options = options;
+    Response response = await dio.post(request.url, data: request.formData);
 
     if (response.statusCode == HttpStatus.ok ||
         response.statusCode == HttpStatus.created) {
@@ -101,7 +108,7 @@ class DioUtil {
     }
   }
 
-  Future<Map<String, dynamic>> request(String path,
+  Future<Map<String, dynamic>> _request(String path,
       {String method, Map<String, dynamic> params}) async {
     Response response = await _dio.request(path,
         data: params,
