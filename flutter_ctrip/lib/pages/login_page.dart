@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_ctrip/viewmodel/loginViewModel.dart';
 
 /**
  * 登录页
@@ -13,6 +15,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _State extends State<LoginPage> {
+  LoginViewModel loginVM;
   var _username = "";
   var _password = "";
 
@@ -61,6 +64,7 @@ class _State extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    loginVM = Provider.of<LoginViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("登录"),

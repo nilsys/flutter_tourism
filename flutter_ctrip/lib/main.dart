@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(style);
 
     return MultiProvider(
-      providers: providers,
+      providers: ProviderManager.providers,
       child: Consumer<AppStore>(builder: (context, userStore, _) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,

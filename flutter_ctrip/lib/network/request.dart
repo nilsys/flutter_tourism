@@ -5,7 +5,7 @@ class Request {
   String url;
   Method requestMethod;
   Map<String, dynamic> header;
-  Map<String, dynamic> params;
+  dynamic params;
   FormData formData;
   int connectTimeout;
   int receiveTimeout;
