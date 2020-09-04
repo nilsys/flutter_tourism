@@ -36,18 +36,39 @@ class _State extends State<LoginPage> {
     super.dispose();
   }
 
+  // https://www.jianshu.com/p/54419a143d70
   // 账号输入框
   Widget _accountTextField() {
+    /*
     return TextField(
       obscureText: false,
+      maxLength: 30,
+      maxLines: 1,
       controller: loginVM.userNameController,
       decoration: InputDecoration(hintText: "请输入账号"),
+      style: TextStyle(fontSize: 15, color: Colors.red),
       onChanged: (value) {
         setState(() {
           //this._username = value;
         });
       },
+      onSubmitted: (value) {
+
+      },
+      enabled: false,
     );
+    */
+    // 带清除按钮
+    return new Stack(alignment: const Alignment(1.0, 1.0), children: <Widget>[
+      new TextField(
+        controller: loginVM.userNameController,
+      ),
+      new FlatButton(
+          onPressed: () {
+            loginVM.userNameController.clear();
+          },
+          child: new Icon(Icons.clear))
+    ]);
   }
 
   // 密码输入框
