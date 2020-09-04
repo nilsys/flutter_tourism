@@ -7,6 +7,7 @@ import 'package:flutter_ctrip/navigator/tab_navigator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_ctrip/pages/newfeatures_page.dart';
 import 'package:flutter_ctrip/util/app_util.dart';
+import 'package:flutter_ctrip/router/routers.dart';
 
 /**
  * 闪屏页
@@ -57,15 +58,27 @@ class _State extends State<SplashPage> {
     print(currentVersion + '/n' + storageVersion);
     if (storageVersion == currentVersion) {
       //版本号相同显示首页
-      NavigatorUtil.push(context, TabNavigator());
+      //NavigatorUtil.push(context, TabNavigator());
+      Routers.pushAndRemove(context, "/tabnavigator");
     } else {
       //版本号不一致， 显示引导页
+      Routers.pushAndRemove(context, "/newfeatures");
+
+      /*
+      Routers.pushName(context, "/newfeatures", callBack: (res) {
+        Routers.pushAndRemove(context, "/tabnavigator");
+        AppUtil.setNewVersion();
+      });
+      */
+
+      /*
       NavigatorUtil.push(context, NewfeaturesPage(), callBack: (res) {
         print("callback" + res);
         NavigatorUtil.push(context, TabNavigator());
         //本地存储新的版本号
         AppUtil.setNewVersion();
       });
+      */
     }
   }
 

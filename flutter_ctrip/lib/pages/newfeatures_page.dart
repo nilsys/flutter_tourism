@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ctrip/navigator/tab_navigator.dart';
+import 'package:flutter_ctrip/router/routers.dart';
+import 'package:flutter_ctrip/util/app_util.dart';
 import 'package:flutter_ctrip/util/navigator_util.dart';
 
 /**
@@ -137,7 +139,9 @@ class _State extends State<NewfeaturesPage> with WidgetsBindingObserver {
             ),
             onTap: () {
               print('触发跳过');
-              Navigator.of(context).pop('测试');
+              //Navigator.of(context).pop('测试');
+              Routers.pushAndRemove(context, "/tabnavigator");
+              AppUtil.setNewVersion();
             },
             onTapUp: (TapUpDetails) {
               print('触发onTapUp');

@@ -22,7 +22,7 @@ class _State extends State<LoginPage> {
     super.initState();
 
     // 获取LoginPage  model 的值
-    print(widget.model);
+    print(widget.arguments);
 
     // 网络请求
   }
