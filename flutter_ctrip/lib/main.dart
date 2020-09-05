@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: I18n.delegate.supportedLocales,
           theme: Provider.of<AppStore>(context, listen: false).themeData,
-          home: PersonCenterPage(),
+          home: SplashPage(),
         );
       }),
     );
