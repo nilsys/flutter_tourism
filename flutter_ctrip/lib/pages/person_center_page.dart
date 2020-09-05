@@ -231,7 +231,9 @@ class _State extends State<PersonCenterPage> {
     );
     return new InkWell(
       child: listItemContent,
-      onTap: () {},
+      onTap: () {
+        
+      },
     );
   }
 }
