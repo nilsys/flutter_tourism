@@ -33,7 +33,8 @@ dependencies:
   # http: ^0.12.0+4
   dio: ^3.0.0
   flutter_webview_plugin: ^0.3.11
-  flutter_staggered_grid_view: ^0.3.0
+  # 瀑布流
+  flutter_staggered_grid_view: ^0.3.2
   flutter_spinkit: "^4.1.2"
   shared_preferences: ^0.5.3+4
   fluttertoast: ^4.0.0
