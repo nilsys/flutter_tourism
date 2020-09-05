@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_color_plugin/flutter_color_plugin.dart';
 import 'package:flutter_ctrip/pages/splash_page.dart';
 import 'package:flutter_ctrip/pages/login_page.dart';
+import 'package:flutter_ctrip/pages/person_center_page.dart';
 import 'package:flutter_ctrip/provider/app_store.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -13,15 +15,30 @@ import 'package:flutter_ctrip/provider/provider_manager.dart';
 import 'generated/i18n.dart';
 
 void main() async {
-  /*
+  // 沉浸式状态栏
   if (Platform.isAndroid) {
     // 以下两行 设置android状态栏为透明的沉浸。写在组件渲染之后，是为了在渲染后进行set赋值，覆盖状态栏，写在渲染之前MaterialApp组件会覆盖掉这个值。
     SystemUiOverlayStyle systemUiOverlayStyle =
         SystemUiOverlayStyle(statusBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
-  */
-  runApp(MyApp());
+  runZoned(() {
+    ErrorWidget.builder = (FlutterErrorDetails details) {
+      Zone.current.handleUncaughtError(details.exception, details.stack);
+      return Center(
+        child: Text('出错啦'),
+      );
+    };
+    FlutterError.onError = (FlutterErrorDetails details) {
+      FlutterError.dumpErrorToConsole(details);
+      Zone.current.handleUncaughtError(details.exception, details.stack);
+    };
+    runApp(MyApp());
+  }, onError: (Object obj, StackTrace stack) {
+//    上传错误日志
+    print(obj);
+    print(stack);
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -49,7 +66,7 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: I18n.delegate.supportedLocales,
           theme: Provider.of<AppStore>(context, listen: false).themeData,
-          home: SplashPage(),
+          home: PersonCenterPage(),
         );
       }),
     );
