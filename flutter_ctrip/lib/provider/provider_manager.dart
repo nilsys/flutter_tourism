@@ -1,3 +1,4 @@
+import 'package:flutter_ctrip/viewmodel/travelParamsViewModel.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/single_child_widget.dart';
@@ -17,5 +18,6 @@ class ProviderManager {
   static final _providers = [
     _buildProvider<AppStore>(AppStore()),
     _buildProvider<LoginViewModel>(LoginViewModel()),
+    _buildProvider<TravelParamsViewModel>(TravelParamsViewModel()),
   ];
 }

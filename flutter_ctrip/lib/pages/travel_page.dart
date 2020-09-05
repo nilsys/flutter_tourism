@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ctrip/pages/travel_tab_page.dart';
 
 /**
  * 旅游页
@@ -64,22 +65,55 @@ class _State extends State<TravelPage> with TickerProviderStateMixin {
       child: TabBarView(
           controller: _controller,
           children: tabs.map((String value) {
-            return Text(value);
+            Map map = new Map();
+            map['name'] = value;
+            return TravelTabPage(
+              arguments: map,
+            );
           }).toList()),
     ));
   }
 
+  void _loadParams() {
+    /*
+    TravelParamsDao.fetch().then((TravelParamsModel model) {
+      setState(() {
+        travelParamsModel = model;
+      });
+      _loadTab();
+    }).catchError((e) {
+      print(e);
+    });
+    */
+  }
+
+  void _loadTab() {
+    /*
+    TravelTabDao.fetch().then((TravelTabModel model) {
+      _controller = TabController(
+          length: model.district.groups.length,
+          vsync: this); //fix tab label 空白问题
+      setState(() {
+        tabs = model.district.groups;
+        travelTabModel = model;
+      });
+    }).catchError((e) {
+      print(e);
+    });
+    */
+  }
+
   @override
   void initState() {
-    //_controller = TabController(length: 0, vsync: this);
-    _controller =
-        TabController(length: tabs.length, vsync: this); //fix tab label 空白问题
+    _controller = TabController(length: 0, vsync: this);
+    _loadParams();
     // TODO: implement initState
     super.initState();
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     // TODO: implement dispose
     super.dispose();
   }

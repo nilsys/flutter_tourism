@@ -12,4 +12,8 @@ abstract class NetWorkApi {
   //  登录
   Future<Null> toLogin(
       Map<String, String> params, Function callBack, Function errorCallback);
+
+  // 旅拍页面导航菜单
+  Future<Null> travelParams(
+      Map<String, String> params, Function callBack, Function errorCallback);
 }

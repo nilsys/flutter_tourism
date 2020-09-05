@@ -40,4 +40,14 @@ class RequestManagement implements NetWorkApi {
     request.requestMethod = Method.POST;
     DioUtil().sendRequest(request, callBack, errorCallback);
   }
+
+  @override
+  Future<Null> travelParams(Map<String, String> params, Function callBack, Function errorCallback) {
+    // TODO: implement travelParams
+    Request request = new Request();
+    request.url = "http://www.devio.org/io/flutter_app/json/travel_page.json";
+    request.params = json.encode(params);
+    request.requestMethod = Method.POST;
+    DioUtil().sendRequest(request, callBack, errorCallback);
+  }
 }
