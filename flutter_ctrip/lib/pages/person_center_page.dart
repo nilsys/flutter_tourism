@@ -84,6 +84,85 @@ class _State extends State<PersonCenterPage> {
       ),
       body: listView,
     );
+    /*
+    return new CustomScrollView(reverse: false, shrinkWrap: false, slivers: <
+        Widget>[
+      new SliverAppBar(
+        pinned: false,
+        backgroundColor: Colors.green,
+        expandedHeight: 200.0,
+        iconTheme: new IconThemeData(color: Colors.transparent),
+        flexibleSpace: new InkWell(
+            onTap: () {
+              userAvatar == null ? debugPrint('登录') : debugPrint('用户信息');
+            },
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                userAvatar == null
+                    ? new Image.asset(
+                        "images/ic_avatar_default.png",
+                        width: 60.0,
+                        height: 60.0,
+                      )
+                    : new Container(
+                        width: 60.0,
+                        height: 60.0,
+                        decoration: new BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.transparent,
+                            image: new DecorationImage(
+                                image: new NetworkImage(userAvatar),
+                                fit: BoxFit.cover),
+                            border: new Border.all(
+                                color: Colors.white, width: 2.0)),
+                      ),
+                new Container(
+                  margin: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                  child: new Text(
+                    userName == null ? '点击头像登录' : userName,
+                    style: new TextStyle(color: Colors.white, fontSize: 16.0),
+                  ),
+                )
+              ],
+            )),
+      ),
+      new SliverFixedExtentList(
+          delegate:
+              new SliverChildBuilderDelegate((BuildContext context, int index) {
+            String title = titles[index];
+            return new Container(
+                alignment: Alignment.centerLeft,
+                child: new InkWell(
+                  onTap: () {
+                    print("the is the item of $title");
+                  },
+                  child: new Column(
+                    children: <Widget>[
+                      new Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
+                        child: new Row(
+                          children: <Widget>[
+                            new Expanded(
+                                child: new Text(
+                              title,
+                              style: titleTextStyle,
+                            )),
+                            rightArrowIcon
+                          ],
+                        ),
+                      ),
+                      new Divider(
+                        height: 1.0,
+                      )
+                    ],
+                  ),
+                ));
+          }, childCount: titles.length),
+          itemExtent: 50.0),
+    ]);
+    */
   }
 
   renderRow(context, i) {
