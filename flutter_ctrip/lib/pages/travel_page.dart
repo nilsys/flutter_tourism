@@ -119,11 +119,6 @@ class _State extends State<TravelPage> with TickerProviderStateMixin {
       appBar: AppBar(
         title: Text("appBar"),
         elevation: 0,
-        backgroundColor: Colors.orange,
-        textTheme: Theme.of(context).textTheme.apply(
-              bodyColor: Colors.white,
-              displayColor: Colors.white,
-            ),
         centerTitle: true,
       ),
       body: Column(

@@ -10,7 +10,7 @@ class AppStore with ChangeNotifier {
 
   // 主题设置
   ThemeData _themeData = ThemeData(
-      primaryColor: Colors.white
+      primaryColor: Colors.orange
   );
 
   Color get primaryColor => _primaryColor;
