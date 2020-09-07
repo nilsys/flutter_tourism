@@ -54,6 +54,13 @@ class DioUtil {
     if (request.header != null) {
       options.headers = request.header;
     }
+    if (request.isPostJson) {
+      Map headers = options.headers;
+      if (headers == null) {
+        headers = Map();
+      }
+      headers["Content-Type"] = "application/json;charset=UTF-8";
+    }
     setOptions(options);
     return _request(request, callBack: callback, errorCallBack: errorCallBack);
   }
@@ -82,14 +89,35 @@ class DioUtil {
       if (request.header != null) {
         options.headers = request.header;
       }
+      if (request.isPostJson) {
+        Map headers = options.headers;
+        if (headers == null) {
+          headers = Map();
+        }
+        headers["Content-Type"] = "application/json;charset=UTF-8";
+      }
       dio.options = options;
-      Response response = await dio.post(request.url, data: request.formData);
-      print("请求链接：" +
-          request.url +
-          "请求参数：" +
-          ((request.params is Map)
-              ? json.encode(request.params)
-              : request.params));
+
+      if (!(request.params is FormData)) {
+        print("params is FormData");
+        return null;
+      }
+      FormData formData = request.params;
+      Response response;
+      switch (request.requestMethod) {
+        case Method.GET:
+          response = await _dio.get(request.url,
+              queryParameters: Map.fromEntries(formData.fields));
+          break;
+        case Method.POST:
+          if (formData.fields.isNotEmpty) {
+            response = await _dio.post(request.url, data: request.params);
+          } else {
+            response = await _dio.post(request.url);
+          }
+          break;
+      }
+      print("请求链接：" + request.url + "请求参数：" + json.encode(formData.fields));
       if (response.data is Map) {
         if (callBack != null) {
           callBack(response.data);
@@ -105,6 +133,15 @@ class DioUtil {
       }
     } on DioError catch (e) {
       print("请求链接：" + request.url + "错误：" + e.message);
+      // 请求错误处理
+      /*
+      Response errorResponse;
+      if (e.response != null) {
+        errorResponse = e.response;
+      } else {
+        errorResponse = new Response(statusCode: 201, statusMessage: e.message);
+      }
+      */
       _handleHttpError(errorCallBack, e);
       return null;
     }

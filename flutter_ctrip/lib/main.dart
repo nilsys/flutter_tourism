@@ -59,6 +59,18 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'FCtrip',
+          builder: (context, child) => Scaffold(
+              // 点击空白出缩下键盘
+              body: GestureDetector(
+            onTap: () {
+              FocusScopeNode currentFocus = FocusScope.of(context);
+              if (!currentFocus.hasPrimaryFocus &&
+                  currentFocus.focusedChild != null) {
+                FocusManager.instance.primaryFocus.unfocus();
+              }
+            },
+            child: child,
+          )),
           localizationsDelegates: [
             I18n.delegate,
             GlobalMaterialLocalizations.delegate,

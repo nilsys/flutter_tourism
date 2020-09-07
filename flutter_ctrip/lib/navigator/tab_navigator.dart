@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ctrip/dialogs/user_agreement_dialog.dart';
 import 'package:flutter_ctrip/pages/destination_page.dart';
 import 'package:flutter_ctrip/pages/home_page.dart';
 import 'package:flutter_ctrip/pages/my_page.dart';
@@ -26,6 +27,10 @@ class _State extends State<TabNavigator>
     _controller = PageController(
       initialPage: 0,
     );
+
+    Future.delayed(Duration(seconds: 1)).then((_) {
+      showDialog();
+    });
   }
 
   @override
@@ -33,6 +38,23 @@ class _State extends State<TabNavigator>
     // TODO: implement dispose
     super.dispose();
     _controller.dispose();
+  }
+
+  showDialog() {
+    showGeneralDialog(
+        context: context,
+        pageBuilder: (context, anim1, anim2) {},
+        barrierColor: Colors.grey.withOpacity(.4),
+        barrierDismissible: true,
+        barrierLabel: "",
+        transitionDuration: Duration(milliseconds: 125),
+        transitionBuilder: (context, anim1, anim2, child) {
+          return Transform.scale(
+              scale: anim1.value,
+              child: Opacity(
+                  opacity: anim1.value,
+                  child: UserAgreementDialog((value) {}, () {})));
+        });
   }
 
   @override

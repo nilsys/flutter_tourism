@@ -6,11 +6,13 @@ class Request {
   Method requestMethod;
   Map<String, dynamic> header;
   dynamic params;
-  FormData formData;
   int connectTimeout;
   int receiveTimeout;
+  // 是否上传为json数据
+  bool isPostJson;
 
   Request() {
+    isPostJson = false;
     this.connectTimeout = 10 * 1000;
     this.receiveTimeout = 20 * 1000;
   }
