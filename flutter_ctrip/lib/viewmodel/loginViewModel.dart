@@ -6,7 +6,14 @@ class LoginViewModel extends ChangeNotifier {
   TextEditingController userNameController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
+  bool radioValue = false;
   bool loading = false;
+
+  changeRadio() {
+    radioValue = !radioValue;
+    notifyListeners();
+  }
+
   loginHandel(BuildContext context) {
     loading = true;
     notifyListeners();

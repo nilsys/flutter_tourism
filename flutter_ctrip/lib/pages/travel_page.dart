@@ -1,5 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ctrip/model/travel_params_model.dart';
+import 'package:flutter_ctrip/network/request_service.dart';
 import 'package:flutter_ctrip/pages/travel_tab_page.dart';
+import 'package:flutter_ctrip/viewmodel/travelParamsViewModel.dart';
+import 'package:flutter_ctrip/widget/top_appbar.dart';
+import 'package:provider/provider.dart';
 
 /**
  * 旅游页
@@ -11,32 +17,13 @@ class TravelPage extends StatefulWidget {
 
 class _State extends State<TravelPage> with TickerProviderStateMixin {
   TabController _controller;
-  List<String> tabs = [
-    "测试一",
-    "测试一",
-    "测试一",
-    "测试一",
-    "测试一",
-    "测试一",
-    "测试一",
-    "测试一",
-    "测试一",
-    "测试一"
-  ];
-
-  Widget _appBar() {
-    return Container(
-      padding: EdgeInsets.fromLTRB(8, 8, 6, 0),
-      decoration: BoxDecoration(color: Colors.white),
-      child: SafeArea(
-        child: Text('appBar'),
-      ),
-    );
-  }
+  TravelParamsViewModel travelParamsVM;
+  List<String> tabs = [];
 
   Widget _tabBar() {
     return Container(
       color: Colors.white,
+      width: double.infinity,
       padding: EdgeInsets.only(left: 2),
       child: TabBar(
         controller: _controller,
@@ -75,16 +62,23 @@ class _State extends State<TravelPage> with TickerProviderStateMixin {
   }
 
   void _loadParams() {
-    /*
-    TravelParamsDao.fetch().then((TravelParamsModel model) {
+    RequestManagement.internal().travelParams({}, (result) {
+      if (result != null) {
+        TravelParamsModel model = TravelParamsModel.fromJson(result);
+        //tabs = model.tabs.map((e) => e).toList();
+
+        setState(() {
+          tabs = ["测试一"];
+        });
+        _controller = TabController(
+            length: tabs.length, vsync: this); //fix tab label 空白问题
+      }
+    }, (DioError erorr) {
       setState(() {
-        travelParamsModel = model;
+        tabs = ["测试一"];
       });
-      _loadTab();
-    }).catchError((e) {
-      print(e);
+      _controller = TabController(length: tabs.length, vsync: this);
     });
-    */
   }
 
   void _loadTab() {
@@ -120,9 +114,20 @@ class _State extends State<TravelPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    travelParamsVM = Provider.of<TravelParamsViewModel>(context);
     return Scaffold(
+      appBar: AppBar(
+        title: Text("appBar"),
+        elevation: 0,
+        backgroundColor: Colors.orange,
+        textTheme: Theme.of(context).textTheme.apply(
+              bodyColor: Colors.white,
+              displayColor: Colors.white,
+            ),
+        centerTitle: true,
+      ),
       body: Column(
-        children: [_appBar(), _tabBar(), _tabPageContent()],
+        children: [_tabBar(), _tabPageContent()],
       ),
     );
   }
