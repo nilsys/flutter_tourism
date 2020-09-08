@@ -29,7 +29,7 @@ class _State extends State<TabNavigator>
     );
 
     Future.delayed(Duration(seconds: 1)).then((_) {
-      showDialog();
+      //showDialog();
     });
   }
 

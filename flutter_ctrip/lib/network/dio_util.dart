@@ -19,12 +19,11 @@ class DioUtil {
 
   static BaseOptions getDefOptions() {
     BaseOptions options = BaseOptions();
-    /*
     options.connectTimeout = 10 * 1000;
     options.receiveTimeout = 20 * 1000;
-    options.contentType =
-        ContentType.parse('application/x-www-form-urlencoded').value;
+    options.contentType = 'application/x-www-form-urlencoded';
 
+    /*
     Map<String, dynamic> headers = Map<String, dynamic>();
     headers['Accept'] = 'application/json';
 
@@ -46,8 +45,8 @@ class DioUtil {
     _dio.options = _options;
   }
 
-  Future<Map<String, dynamic>> sendRequest(
-      Request request, Function callback, Function errorCallBack) {
+  Future<Map<String, dynamic>> sendRequest(Request request,
+      {Function callback, Function errorCallBack}) {
     BaseOptions options = getDefOptions();
     options.connectTimeout = request.connectTimeout;
     options.receiveTimeout = request.receiveTimeout;
@@ -55,11 +54,7 @@ class DioUtil {
       options.headers = request.header;
     }
     if (request.isPostJson) {
-      Map headers = options.headers;
-      if (headers == null) {
-        headers = Map();
-      }
-      headers["Content-Type"] = "application/json;charset=UTF-8";
+      options.contentType = 'application/json;charset=UTF-8';
     }
     setOptions(options);
     return _request(request, callBack: callback, errorCallBack: errorCallBack);
@@ -90,11 +85,7 @@ class DioUtil {
         options.headers = request.header;
       }
       if (request.isPostJson) {
-        Map headers = options.headers;
-        if (headers == null) {
-          headers = Map();
-        }
-        headers["Content-Type"] = "application/json;charset=UTF-8";
+        options.contentType = 'application/json;charset=UTF-8';
       }
       dio.options = options;
 
@@ -106,33 +97,47 @@ class DioUtil {
       Response response;
       switch (request.requestMethod) {
         case Method.GET:
-          response = await _dio.get(request.url,
-              queryParameters: Map.fromEntries(formData.fields));
+          if (formData.fields.isNotEmpty && formData.fields != null) {
+            response = await _dio.get(request.url,
+                queryParameters: Map.fromEntries(formData.fields));
+          } else {
+            response = await _dio.get(request.url);
+          }
           break;
         case Method.POST:
-          if (formData.fields.isNotEmpty) {
-            response = await _dio.post(request.url, data: request.params);
+          if (formData.fields.isNotEmpty && formData.fields != null) {
+            response = await _dio.post(request.url,
+                data: request.params, queryParameters: request.params);
           } else {
             response = await _dio.post(request.url);
           }
           break;
       }
-      print("请求链接：" + request.url + "请求参数：" + json.encode(formData.fields));
+      print("请求链接：" +
+          request.url +
+          " 请求参数：" +
+          json.encode(formData.fields == null ? {} : formData.fields));
       if (response.data is Map) {
         if (callBack != null) {
           callBack(response.data);
         }
-        print("请求链接：" + request.url + "响应结果：" + response.data.toString());
+        print("请求链接：" + request.url + " 响应结果：" + response.data.toString());
         return response.data;
       } else {
         if (callBack != null) {
           callBack(json.decode(response.data.toString()));
         }
-        print("请求链接：" + request.url + "响应结果：" + response.data.toString());
+
+        print("请求链接：" + request.url + " 响应结果：" + response.data.toString());
+        //Utf8Decoder utf8decoder = Utf8Decoder(); // fix 中文乱码
+        //utf8decoder.convert(response.data).toString();
         return json.decode(response.data.toString());
       }
     } on DioError catch (e) {
-      print("请求链接：" + request.url + "错误：" + e.message);
+      print("请求链接：" + request.url + " 错误：" + e.message);
+      if (errorCallBack != null) {
+        errorCallBack(e);
+      }
       // 请求错误处理
       /*
       Response errorResponse;
@@ -151,41 +156,42 @@ class DioUtil {
       {Function callBack, Function errorCallBack}) async {
     try {
       Response response;
-      String method = '';
       switch (request.requestMethod) {
         case Method.GET:
-          method = MethodType.get;
-          response = await _dio.request(request.url,
-              queryParameters: request.params,
-              options: Options(method: method));
+          response = await _dio.get(request.url,
+              queryParameters: request.params == null ? {} : request.params);
           break;
         case Method.POST:
-          method = MethodType.post;
-          response = await _dio.request(request.url,
-              data: request.params, options: Options(method: method));
+          if (request.params == null) {
+            response = await _dio.post(request.url);
+          } else {
+            response = await _dio.post(request.url,
+                data: request.params, queryParameters: request.params);
+          }
           break;
       }
       print("请求链接：" +
           request.url +
-          "请求参数：" +
-          ((request.params is Map)
-              ? json.encode(request.params)
-              : request.params));
+          " 请求参数：" +
+          json.encode(request.params == null ? {} : request.params));
       if (response.data is Map) {
         if (callBack != null) {
           callBack(response.data);
         }
-        print("请求链接：" + request.url + "响应结果：" + response.data.toString());
+        print("请求链接：" + request.url + " 响应结果：" + response.data.toString());
         return response.data;
       } else {
         if (callBack != null) {
           callBack(json.decode(response.data.toString()));
         }
-        print("请求链接：" + request.url + "响应结果：" + response.data.toString());
+        print("请求链接：" + request.url + " 响应结果：" + response.data.toString());
         return json.decode(response.data.toString());
       }
     } on DioError catch (e) {
-      print("请求链接：" + request.url + "错误：" + e.message);
+      print("请求链接：" + request.url + " 错误：" + e.message);
+      if (errorCallBack != null) {
+        errorCallBack(e);
+      }
       _handleHttpError(errorCallBack, e);
       return null;
     }

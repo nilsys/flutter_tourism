@@ -6,9 +6,10 @@ import 'package:flutter_ctrip/network/request_service.dart';
 
 class TravelParamsViewModel extends ChangeNotifier {
   //List<Tabs> tabs;
-  List<String> tabs;
+  //List<String> tabs;
 
   loadParamsHandel(BuildContext context, Function callback) {
+    /*
     RequestManagement.internal().travelParams({}, (result) {
       if (result != null) {
         TravelParamsModel model = TravelParamsModel.fromJson(result);
@@ -26,5 +27,6 @@ class TravelParamsViewModel extends ChangeNotifier {
         callback();
       }
     });
+    */
   }
 }

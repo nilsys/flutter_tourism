@@ -18,7 +18,7 @@ class TravelPage extends StatefulWidget {
 class _State extends State<TravelPage> with TickerProviderStateMixin {
   TabController _controller;
   TravelParamsViewModel travelParamsVM;
-  List<String> tabs = [];
+  List<Tabs> tabs = [];
 
   Widget _tabBar() {
     return Container(
@@ -36,9 +36,9 @@ class _State extends State<TravelPage> with TickerProviderStateMixin {
         indicatorWeight: 2.2,
         labelStyle: TextStyle(fontSize: 15),
         unselectedLabelStyle: TextStyle(fontSize: 15),
-        tabs: tabs.map<Tab>((String value) {
+        tabs: tabs.map<Tab>((Tabs value) {
           return Tab(
-            text: value,
+            text: value.labelName,
           );
         }).toList(),
       ),
@@ -51,9 +51,9 @@ class _State extends State<TravelPage> with TickerProviderStateMixin {
       padding: EdgeInsets.fromLTRB(6, 3, 6, 0),
       child: TabBarView(
           controller: _controller,
-          children: tabs.map((String value) {
+          children: tabs.map((Tabs value) {
             Map map = new Map();
-            map['name'] = value;
+            map['name'] = value.labelName;
             return TravelTabPage(
               arguments: map,
             );
@@ -65,19 +65,20 @@ class _State extends State<TravelPage> with TickerProviderStateMixin {
     RequestManagement.internal().travelParams({}, (result) {
       if (result != null) {
         TravelParamsModel model = TravelParamsModel.fromJson(result);
-        //tabs = model.tabs.map((e) => e).toList();
-
-        setState(() {
-          tabs = ["测试一"];
-        });
+        tabs = model.tabs.map((e) => e).toList();
         _controller = TabController(
             length: tabs.length, vsync: this); //fix tab label 空白问题
+        setState(() {
+          tabs = tabs;
+        });
       }
     }, (DioError erorr) {
-      setState(() {
-        tabs = ["测试一"];
-      });
-      _controller = TabController(length: tabs.length, vsync: this);
+      // tabs = ["测试一"];
+      // _controller =
+      //     TabController(length: tabs.length, vsync: this); //fix tab label 空白问题
+      // setState(() {
+      //   tabs = tabs;
+      // });
     });
   }
 

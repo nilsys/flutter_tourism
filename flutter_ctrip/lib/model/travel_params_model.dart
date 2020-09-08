@@ -1,241 +1,258 @@
-import 'package:equatable/equatable.dart';
+import 'dart:convert' show json;
 
-class TravelParamsModel extends Equatable  {
-	final String url;
-	final Params params;
-	final List<Tabs> tabs;
-
-	TravelParamsModel({this.url, this.params, this.tabs});
-
-	factory TravelParamsModel.fromJson(Map<String, dynamic> json) {
-		return TravelParamsModel(
-			url: json['url'],
-			params: json['params'] != null ? new Params.fromJson(json['params']) : null,
-			tabs: json['tabs'] != null ? json['tabs'].map((v) => new Tabs.fromJson(v)).toList() : null,
-		);
-	}
-
-	Map<String, dynamic> toJson() {
-		final Map<String, dynamic> data = new Map<String, dynamic>();
-		data['url'] = this.url;
-		if (this.params != null) {
-      data['params'] = this.params.toJson();
-    }
-		if (this.tabs!= null) {
-      data['tabs'] = this.tabs.map((v) => v.toJson()).toList();
-    }
-		return data;
-	}
-
-	@override
-	List<Object> get props => [
-		this.url,
-		this.params,
-		this.tabs
-	];
+T asT<T>(dynamic value) {
+  if (value is T) {
+    return value;
+  }
+  return null;
 }
 
-class Tabs extends Equatable  {
-	final String labelName;
-	final String groupChannelCode;
+class TravelParamsModel {
+  TravelParamsModel({
+    this.url,
+    this.params,
+    this.tabs,
+  });
 
-	Tabs({this.labelName, this.groupChannelCode});
-
-	factory Tabs.fromJson(Map<String, dynamic> json) {
-		return Tabs(
-			labelName: json['labelName'],
-			groupChannelCode: json['groupChannelCode'],
-		);
-	}
-
-	Map<String, dynamic> toJson() {
-		final Map<String, dynamic> data = new Map<String, dynamic>();
-		data['labelName'] = this.labelName;
-		data['groupChannelCode'] = this.groupChannelCode;
-		return data;
-	}
-
-	@override
-	List<Object> get props => [
-		this.labelName,
-		this.groupChannelCode
-	];
-}
-
-class Params extends Equatable  {
-	final int districtId;
-	final String groupChannelCode;
-	final String type;
-	final int lat;
-	final int lon;
-	final int locatedDistrictId;
-	final PagePara pagePara;
-	final int imageCutType;
-	final Head head;
-	final String contentType;
-
-	Params({this.districtId, this.groupChannelCode, this.type, this.lat, this.lon, this.locatedDistrictId, this.pagePara, this.imageCutType, this.head, this.contentType});
-
-	factory Params.fromJson(Map<String, dynamic> json) {
-		return Params(
-			districtId: json['districtId'],
-			groupChannelCode: json['groupChannelCode'],
-			type: json['type'],
-			lat: json['lat'],
-			lon: json['lon'],
-			locatedDistrictId: json['locatedDistrictId'],
-			pagePara: json['pagePara'] != null ? new PagePara.fromJson(json['pagePara']) : null,
-			imageCutType: json['imageCutType'],
-			head: json['head'] != null ? new Head.fromJson(json['head']) : null,
-			contentType: json['contentType'],
-		);
-	}
-
-	Map<String, dynamic> toJson() {
-		final Map<String, dynamic> data = new Map<String, dynamic>();
-		data['districtId'] = this.districtId;
-		data['groupChannelCode'] = this.groupChannelCode;
-		data['type'] = this.type;
-		data['lat'] = this.lat;
-		data['lon'] = this.lon;
-		data['locatedDistrictId'] = this.locatedDistrictId;
-		if (this.pagePara != null) {
-      data['pagePara'] = this.pagePara.toJson();
+  factory TravelParamsModel.fromJson(Map<String, dynamic> jsonRes) {
+    if (jsonRes == null) {
+      return null;
     }
-		data['imageCutType'] = this.imageCutType;
-		if (this.head != null) {
-      data['head'] = this.head.toJson();
+
+    final List<Tabs> tabs = jsonRes['tabs'] is List ? <Tabs>[] : null;
+    if (tabs != null) {
+      for (final dynamic item in jsonRes['tabs']) {
+        if (item != null) {
+          tabs.add(Tabs.fromJson(asT<Map<String, dynamic>>(item)));
+        }
+      }
     }
-		data['contentType'] = this.contentType;
-		return data;
-	}
+    return TravelParamsModel(
+      url: asT<String>(jsonRes['url']),
+      params: Params.fromJson(asT<Map<String, dynamic>>(jsonRes['params'])),
+      tabs: tabs,
+    );
+  }
 
-	@override
-	List<Object> get props => [
-		this.districtId,
-		this.groupChannelCode,
-		this.type,
-		this.lat,
-		this.lon,
-		this.locatedDistrictId,
-		this.pagePara,
-		this.imageCutType,
-		this.head,
-		this.contentType
-	];
+  String url;
+  Params params;
+  List<Tabs> tabs;
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'url': url,
+        'params': params,
+        'tabs': tabs,
+      };
+  @override
+  String toString() {
+    return json.encode(this);
+  }
 }
 
-class Extension extends Equatable  {
-	final String name;
-	final String value;
+class Params {
+  Params({
+    this.districtId,
+    this.groupChannelCode,
+    this.type,
+    this.lat,
+    this.lon,
+    this.locatedDistrictId,
+    this.pagePara,
+    this.imageCutType,
+    this.head,
+    this.contentType,
+  });
 
-	Extension({this.name, this.value});
+  factory Params.fromJson(Map<String, dynamic> jsonRes) => jsonRes == null
+      ? null
+      : Params(
+          districtId: asT<int>(jsonRes['districtId']),
+          groupChannelCode: asT<String>(jsonRes['groupChannelCode']),
+          type: asT<Object>(jsonRes['type']),
+          lat: asT<int>(jsonRes['lat']),
+          lon: asT<int>(jsonRes['lon']),
+          locatedDistrictId: asT<int>(jsonRes['locatedDistrictId']),
+          pagePara:
+              PagePara.fromJson(asT<Map<String, dynamic>>(jsonRes['pagePara'])),
+          imageCutType: asT<int>(jsonRes['imageCutType']),
+          head: Head.fromJson(asT<Map<String, dynamic>>(jsonRes['head'])),
+          contentType: asT<String>(jsonRes['contentType']),
+        );
 
-	factory Extension.fromJson(Map<String, dynamic> json) {
-		return Extension(
-			name: json['name'],
-			value: json['value'],
-		);
-	}
+  int districtId;
+  String groupChannelCode;
+  Object type;
+  int lat;
+  int lon;
+  int locatedDistrictId;
+  PagePara pagePara;
+  int imageCutType;
+  Head head;
+  String contentType;
 
-	Map<String, dynamic> toJson() {
-		final Map<String, dynamic> data = new Map<String, dynamic>();
-		data['name'] = this.name;
-		data['value'] = this.value;
-		return data;
-	}
-
-	@override
-	List<Object> get props => [
-		this.name,
-		this.value
-	];
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'districtId': districtId,
+        'groupChannelCode': groupChannelCode,
+        'type': type,
+        'lat': lat,
+        'lon': lon,
+        'locatedDistrictId': locatedDistrictId,
+        'pagePara': pagePara,
+        'imageCutType': imageCutType,
+        'head': head,
+        'contentType': contentType,
+      };
+  @override
+  String toString() {
+    return json.encode(this);
+  }
 }
 
-class Head extends Equatable  {
-	final String cid;
-	final String ctok;
-	final String cver;
-	final String lang;
-	final String sid;
-	final String syscode;
-	final String auth;
-	final List<Extension> extension;
+class PagePara {
+  PagePara({
+    this.pageIndex,
+    this.pageSize,
+    this.sortType,
+    this.sortDirection,
+  });
 
-	Head({this.cid, this.ctok, this.cver, this.lang, this.sid, this.syscode, this.auth, this.extension});
+  factory PagePara.fromJson(Map<String, dynamic> jsonRes) => jsonRes == null
+      ? null
+      : PagePara(
+          pageIndex: asT<int>(jsonRes['pageIndex']),
+          pageSize: asT<int>(jsonRes['pageSize']),
+          sortType: asT<int>(jsonRes['sortType']),
+          sortDirection: asT<int>(jsonRes['sortDirection']),
+        );
 
-	factory Head.fromJson(Map<String, dynamic> json) {
-		return Head(
-			cid: json['cid'],
-			ctok: json['ctok'],
-			cver: json['cver'],
-			lang: json['lang'],
-			sid: json['sid'],
-			syscode: json['syscode'],
-			auth: json['auth'],
-			extension: json['extension'] != null ? json['extension'].map((v) => new Extension.fromJson(v)).toList() : null,
-		);
-	}
+  int pageIndex;
+  int pageSize;
+  int sortType;
+  int sortDirection;
 
-	Map<String, dynamic> toJson() {
-		final Map<String, dynamic> data = new Map<String, dynamic>();
-		data['cid'] = this.cid;
-		data['ctok'] = this.ctok;
-		data['cver'] = this.cver;
-		data['lang'] = this.lang;
-		data['sid'] = this.sid;
-		data['syscode'] = this.syscode;
-		data['auth'] = this.auth;
-		if (this.extension!= null) {
-      data['extension'] = this.extension.map((v) => v.toJson()).toList();
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'pageIndex': pageIndex,
+        'pageSize': pageSize,
+        'sortType': sortType,
+        'sortDirection': sortDirection,
+      };
+  @override
+  String toString() {
+    return json.encode(this);
+  }
+}
+
+class Head {
+  Head({
+    this.cid,
+    this.ctok,
+    this.cver,
+    this.lang,
+    this.sid,
+    this.syscode,
+    this.auth,
+    this.extension,
+  });
+
+  factory Head.fromJson(Map<String, dynamic> jsonRes) {
+    if (jsonRes == null) {
+      return null;
     }
-		return data;
-	}
 
-	@override
-	List<Object> get props => [
-		this.cid,
-		this.ctok,
-		this.cver,
-		this.lang,
-		this.sid,
-		this.syscode,
-		this.auth,
-		this.extension
-	];
+    final List<Extension> extension =
+        jsonRes['extension'] is List ? <Extension>[] : null;
+    if (extension != null) {
+      for (final dynamic item in jsonRes['extension']) {
+        if (item != null) {
+          extension.add(Extension.fromJson(asT<Map<String, dynamic>>(item)));
+        }
+      }
+    }
+    return Head(
+      cid: asT<String>(jsonRes['cid']),
+      ctok: asT<String>(jsonRes['ctok']),
+      cver: asT<String>(jsonRes['cver']),
+      lang: asT<String>(jsonRes['lang']),
+      sid: asT<String>(jsonRes['sid']),
+      syscode: asT<String>(jsonRes['syscode']),
+      auth: asT<Object>(jsonRes['auth']),
+      extension: extension,
+    );
+  }
+
+  String cid;
+  String ctok;
+  String cver;
+  String lang;
+  String sid;
+  String syscode;
+  Object auth;
+  List<Extension> extension;
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'cid': cid,
+        'ctok': ctok,
+        'cver': cver,
+        'lang': lang,
+        'sid': sid,
+        'syscode': syscode,
+        'auth': auth,
+        'extension': extension,
+      };
+  @override
+  String toString() {
+    return json.encode(this);
+  }
 }
 
-class PagePara extends Equatable  {
-	final int pageIndex;
-	final int pageSize;
-	final int sortType;
-	final int sortDirection;
+class Extension {
+  Extension({
+    this.name,
+    this.value,
+  });
 
-	PagePara({this.pageIndex, this.pageSize, this.sortType, this.sortDirection});
+  factory Extension.fromJson(Map<String, dynamic> jsonRes) => jsonRes == null
+      ? null
+      : Extension(
+          name: asT<String>(jsonRes['name']),
+          value: asT<String>(jsonRes['value']),
+        );
 
-	factory PagePara.fromJson(Map<String, dynamic> json) {
-		return PagePara(
-			pageIndex: json['pageIndex'],
-			pageSize: json['pageSize'],
-			sortType: json['sortType'],
-			sortDirection: json['sortDirection'],
-		);
-	}
+  String name;
+  String value;
 
-	Map<String, dynamic> toJson() {
-		final Map<String, dynamic> data = new Map<String, dynamic>();
-		data['pageIndex'] = this.pageIndex;
-		data['pageSize'] = this.pageSize;
-		data['sortType'] = this.sortType;
-		data['sortDirection'] = this.sortDirection;
-		return data;
-	}
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'name': name,
+        'value': value,
+      };
+  @override
+  String toString() {
+    return json.encode(this);
+  }
+}
 
-	@override
-	List<Object> get props => [
-		this.pageIndex,
-		this.pageSize,
-		this.sortType,
-		this.sortDirection
-	];
+class Tabs {
+  Tabs({
+    this.labelName,
+    this.groupChannelCode,
+  });
+
+  factory Tabs.fromJson(Map<String, dynamic> jsonRes) => jsonRes == null
+      ? null
+      : Tabs(
+          labelName: asT<String>(jsonRes['labelName']),
+          groupChannelCode: asT<String>(jsonRes['groupChannelCode']),
+        );
+
+  String labelName;
+  String groupChannelCode;
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'labelName': labelName,
+        'groupChannelCode': groupChannelCode,
+      };
+  @override
+  String toString() {
+    return json.encode(this);
+  }
 }

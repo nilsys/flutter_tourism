@@ -31,23 +31,30 @@ class RequestManagement implements NetWorkApi {
   RequestManagement.internal();
 
   @override
-  Future<Null> toLogin(Map<String, String> params, Function callBack,
-      Function errorCallback) async {
+  Future<Null> toLogin(
+      params, Function callBack, Function errorCallback) async {
+    Map<String, dynamic> headers = Map<String, dynamic>();
+    headers['Accept'] = 'application/json';
     // TODO: implement toLogin
     Request request = new Request();
     request.url = Api.baseApi + Api.login;
-    request.params = json.encode(params);
+    request.params = params;
+    request.header = headers;
+    // json.encode(params);
     request.requestMethod = Method.POST;
-    DioUtil().sendRequest(request, callBack, errorCallback);
+    DioUtil()
+        .sendRequest(request, callback: callBack, errorCallBack: errorCallback);
   }
 
   @override
-  Future<Null> travelParams(Map<String, String> params, Function callBack, Function errorCallback) {
+  Future<Null> travelParams(
+      Map<String, dynamic> params, Function callBack, Function errorCallback) {
     // TODO: implement travelParams
     Request request = new Request();
     request.url = "http://www.devio.org/io/flutter_app/json/travel_page.json";
-    request.params = json.encode(params);
-    request.requestMethod = Method.POST;
-    DioUtil().sendRequest(request, callBack, errorCallback);
+    //request.params = params;
+    request.requestMethod = Method.GET;
+    DioUtil()
+        .sendRequest(request, callback: callBack, errorCallBack: errorCallback);
   }
 }
