@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ctrip/dialogs/bottom_sheet_dialog.dart';
 import 'package:flutter_ctrip/dialogs/user_agreement_dialog.dart';
 import 'package:flutter_ctrip/pages/destination_page.dart';
 import 'package:flutter_ctrip/pages/home_page.dart';
@@ -30,6 +31,7 @@ class _State extends State<TabNavigator>
 
     Future.delayed(Duration(seconds: 1)).then((_) {
       //showDialog();
+      showBottomSheetDialog();
     });
   }
 
@@ -54,6 +56,29 @@ class _State extends State<TabNavigator>
               child: Opacity(
                   opacity: anim1.value,
                   child: UserAgreementDialog((value) {}, () {})));
+        });
+  }
+
+  showBottomSheetDialog() {
+    List<String> list = ['相册', '拍照'];
+    showGeneralDialog(
+        context: context,
+        pageBuilder: (context, anim1, anim2) {},
+        barrierColor: Colors.grey.withOpacity(.4),
+        barrierDismissible: true,
+        barrierLabel: "",
+        transitionDuration: Duration(milliseconds: 125),
+        transitionBuilder: (context, anim1, anim2, child) {
+          return Transform.scale(
+              scale: anim1.value,
+              child: Opacity(
+                  opacity: anim1.value,
+                  child: BottomSheetDialog(
+                    datas: list,
+                    cancelTitle: '取消',
+                    confirmCallback: (value) {},
+                    cancelCallback: () {},
+                  )));
         });
   }
 
