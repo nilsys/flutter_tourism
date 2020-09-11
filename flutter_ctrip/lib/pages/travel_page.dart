@@ -63,7 +63,6 @@ class _State extends State<TravelPage> with TickerProviderStateMixin {
   @override
   void initState() {
     _controller = TabController(length: 0, vsync: this);
-
     // TODO: implement initState
     super.initState();
   }
@@ -72,7 +71,7 @@ class _State extends State<TravelPage> with TickerProviderStateMixin {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-        if (travelParamsVM == null) {
+    if (travelParamsVM == null) {
       travelParamsVM = Provider.of<TravelParamsViewModel>(context);
       // 发起网络请求
       travelParamsVM.loadParamsHandel(context, (bool status) {

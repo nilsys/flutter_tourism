@@ -5,7 +5,6 @@ import 'package:flutter_ctrip/model/travel_params_model.dart';
 import 'package:flutter_ctrip/network/request_service.dart';
 
 class TravelParamsViewModel extends ChangeNotifier {
-
   List<Tabs> tabs = [];
 
   loadParamsHandel(BuildContext context, Function callback) {
