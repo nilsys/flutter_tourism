@@ -14,16 +14,24 @@ class BottomSheetDialog extends Dialog {
       this.cancelCallback,
       this.confirmCallback});
 
-  Widget _randerRow(String item, int index) {
+  Widget _randerRow(context, String item, int index) {
     print("index:" + index.toString());
     return Column(
       children: [
-        Container(
-          height: 40,
-          color: Colors.white,
-          child: new Text(item),
-          width: double.infinity,
-          alignment: Alignment.center,
+        GestureDetector(
+          child: Container(
+            height: 40,
+            color: Colors.white,
+            child: new Text(item),
+            width: double.infinity,
+            alignment: Alignment.center,
+          ),
+          onTap: () {
+            if (confirmCallback != null) {
+              confirmCallback(item);
+            }
+            Navigator.of(context).pop();
+          },
         ),
         Container(
           color: Colors.grey,
@@ -33,7 +41,7 @@ class BottomSheetDialog extends Dialog {
     );
   }
 
-  _items() {
+  _items(context) {
     /*
     List<Widget> subItems = List<Widget>.from(datas
         .asMap()
@@ -43,7 +51,7 @@ class BottomSheetDialog extends Dialog {
         */
 
     List<Widget> subItems = datas.asMap().keys.map((i) {
-      return _randerRow(datas[i], i);
+      return _randerRow(context, datas[i], i);
     }).toList();
 
     List<Widget> items = new List();
@@ -55,12 +63,20 @@ class BottomSheetDialog extends Dialog {
     );
     items.add(sizeBox);
 
-    Widget cancel = Container(
-      height: 40,
-      color: Colors.white,
-      child: new Text(cancelTitle),
-      width: double.infinity,
-      alignment: Alignment.center,
+    Widget cancel = GestureDetector(
+      child: Container(
+        height: 40,
+        color: Colors.white,
+        child: new Text(cancelTitle),
+        width: double.infinity,
+        alignment: Alignment.center,
+      ),
+      onTap: () {
+        if (cancelCallback != null) {
+          cancelCallback();
+        }
+        Navigator.of(context).pop();
+      },
     );
     items.add(cancel);
     return items;
@@ -71,18 +87,14 @@ class BottomSheetDialog extends Dialog {
     return Material(
       color: Colors.transparent,
       shadowColor: Colors.transparent,
-      child: Center(
-        child: Container(
-          margin: EdgeInsets.only(left: 0, right: 0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(0),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: _items(),
-          ),
+      child: Container(
+        margin: EdgeInsets.only(left: 0, right: 0),
+        color: Colors.transparent,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: _items(context),
         ),
       ),
     );

@@ -31,8 +31,8 @@ class _State extends State<TabNavigator>
 
     Future.delayed(Duration(seconds: 1)).then((_) {
       //showDialog();
-      //showBottomSheetDialog();
-      _openModalBottomSheet();
+      showBottomSheetDialog();
+      //_openModalBottomSheet();
     });
   }
 
@@ -68,7 +68,7 @@ class _State extends State<TabNavigator>
         barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
-        transitionDuration: Duration(milliseconds: 125),
+        transitionDuration: Duration(milliseconds: 0),
         transitionBuilder: (context, anim1, anim2, child) {
           return Transform.scale(
               scale: anim1.value,
