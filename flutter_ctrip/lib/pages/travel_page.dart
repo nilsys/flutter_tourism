@@ -18,7 +18,6 @@ class TravelPage extends StatefulWidget {
 class _State extends State<TravelPage> with TickerProviderStateMixin {
   TabController _controller;
   TravelParamsViewModel travelParamsVM;
-  List<Tabs> tabs = [];
 
   Widget _tabBar() {
     return Container(
@@ -36,7 +35,7 @@ class _State extends State<TravelPage> with TickerProviderStateMixin {
         indicatorWeight: 2.2,
         labelStyle: TextStyle(fontSize: 15),
         unselectedLabelStyle: TextStyle(fontSize: 15),
-        tabs: tabs.map<Tab>((Tabs value) {
+        tabs: travelParamsVM.tabs.map<Tab>((Tabs value) {
           return Tab(
             text: value.labelName,
           );
@@ -51,7 +50,7 @@ class _State extends State<TravelPage> with TickerProviderStateMixin {
       padding: EdgeInsets.fromLTRB(6, 3, 6, 0),
       child: TabBarView(
           controller: _controller,
-          children: tabs.map((Tabs value) {
+          children: travelParamsVM.tabs.map((Tabs value) {
             Map map = new Map();
             map['name'] = value.labelName;
             return TravelTabPage(
@@ -61,47 +60,10 @@ class _State extends State<TravelPage> with TickerProviderStateMixin {
     ));
   }
 
-  void _loadParams() {
-    RequestManagement.internal().travelParams({}, (result) {
-      if (result != null) {
-        TravelParamsModel model = TravelParamsModel.fromJson(result);
-        tabs = model.tabs.map((e) => e).toList();
-        _controller = TabController(
-            length: tabs.length, vsync: this); //fix tab label 空白问题
-        setState(() {
-          tabs = tabs;
-        });
-      }
-    }, (DioError erorr) {
-      // tabs = ["测试一"];
-      // _controller =
-      //     TabController(length: tabs.length, vsync: this); //fix tab label 空白问题
-      // setState(() {
-      //   tabs = tabs;
-      // });
-    });
-  }
-
-  void _loadTab() {
-    /*
-    TravelTabDao.fetch().then((TravelTabModel model) {
-      _controller = TabController(
-          length: model.district.groups.length,
-          vsync: this); //fix tab label 空白问题
-      setState(() {
-        tabs = model.district.groups;
-        travelTabModel = model;
-      });
-    }).catchError((e) {
-      print(e);
-    });
-    */
-  }
-
   @override
   void initState() {
     _controller = TabController(length: 0, vsync: this);
-    _loadParams();
+
     // TODO: implement initState
     super.initState();
   }
@@ -110,11 +72,17 @@ class _State extends State<TravelPage> with TickerProviderStateMixin {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    if (travelParamsVM == null) {
+        if (travelParamsVM == null) {
       travelParamsVM = Provider.of<TravelParamsViewModel>(context);
+      // 发起网络请求
+      travelParamsVM.loadParamsHandel(context, (bool status) {
+        if (status == true) {
+          _controller = TabController(
+              length: travelParamsVM.tabs.length,
+              vsync: this); //fix tab label 空白问题
+        } else {}
+      });
     }
-    // 发起网络请求
-    travelParamsVM.loadParamsHandel(context, () {});
   }
 
   @override
