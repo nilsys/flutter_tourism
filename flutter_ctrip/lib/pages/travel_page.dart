@@ -107,6 +107,17 @@ class _State extends State<TravelPage> with TickerProviderStateMixin {
   }
 
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    if (travelParamsVM == null) {
+      travelParamsVM = Provider.of<TravelParamsViewModel>(context);
+    }
+    // 发起网络请求
+    travelParamsVM.loadParamsHandel(context, () {});
+  }
+
+  @override
   void dispose() {
     _controller.dispose();
     // TODO: implement dispose
@@ -115,7 +126,7 @@ class _State extends State<TravelPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    travelParamsVM = Provider.of<TravelParamsViewModel>(context);
+    //travelParamsVM = Provider.of<TravelParamsViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("appBar"),
