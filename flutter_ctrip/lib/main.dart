@@ -3,10 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_color_plugin/flutter_color_plugin.dart';
 import 'package:flutter_ctrip/pages/splash_page.dart';
-import 'package:flutter_ctrip/pages/login_page.dart';
-import 'package:flutter_ctrip/pages/person_center_page.dart';
 import 'package:flutter_ctrip/provider/app_store.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +32,7 @@ void main() async {
     };
     runApp(MyApp());
   }, onError: (Object obj, StackTrace stack) {
-//    上传错误日志
+    // 上传错误日志
     print(obj);
     print(stack);
   });
@@ -58,7 +55,7 @@ class MyApp extends StatelessWidget {
       child: Consumer<AppStore>(builder: (context, userStore, _) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'FCtrip',
+          title: 'trip',
           builder: (context, child) => Scaffold(
               // 点击空白出缩下键盘
               body: GestureDetector(

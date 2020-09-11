@@ -84,11 +84,12 @@ class BottomSheetDialog extends Dialog {
 
   @override
   Widget build(BuildContext context) {
+    final double bottomPadding = MediaQuery.of(context).padding.bottom;
     return Material(
       color: Colors.transparent,
       shadowColor: Colors.transparent,
       child: Container(
-        margin: EdgeInsets.only(left: 0, right: 0),
+        margin: EdgeInsets.only(left: 0, right: 0, bottom: bottomPadding),
         color: Colors.transparent,
         child: Column(
           mainAxisSize: MainAxisSize.min,
