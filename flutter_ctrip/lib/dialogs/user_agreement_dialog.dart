@@ -88,7 +88,7 @@ class UserAgreementDialog extends Dialog {
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20, bottom: 15),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           FlatButton(
               child: Text('不同意'),

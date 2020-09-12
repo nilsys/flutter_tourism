@@ -7,22 +7,35 @@
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-saveToken(String token) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString("token", token);
+class PreferencesKeys {
+    static final token = "token";
+    static final userName = "userName";
+    static final password = "password";
+    static final appIsFirstLauch = "appIsFirstLauch";
 }
 
-saveName(String userName) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString("userName", userName);
+class CacheUtil {
+
+  static saveStringToPreferences(String key, String value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(key, value);
+  }
+
+  static saveBoolToPreferences(String key, bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(key, value);
+  }
+
+  static Future<String> getStringFromPreferences(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(key);
+  }
+
+  static Future<bool> getBoolFromPreferences(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(key);
+  }
+
 }
 
-savePassword(String pwd) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString("password", pwd);
-}
 
-getPreferences(String key)async{
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.getString(key);
-}

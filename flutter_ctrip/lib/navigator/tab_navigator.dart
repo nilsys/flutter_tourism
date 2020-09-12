@@ -5,6 +5,7 @@ import 'package:flutter_ctrip/pages/destination_page.dart';
 import 'package:flutter_ctrip/pages/home_page.dart';
 import 'package:flutter_ctrip/pages/my_page.dart';
 import 'package:flutter_ctrip/pages/travel_page.dart';
+import 'package:flutter_ctrip/util/shared_cache.dart';
 
 /**
  * 底部导航页
@@ -29,10 +30,13 @@ class _State extends State<TabNavigator>
       initialPage: 0,
     );
 
-    Future.delayed(Duration(seconds: 1)).then((_) {
-      //showDialog();
-      showBottomSheetDialog();
-      //_openModalBottomSheet();
+    Future.delayed(Duration(milliseconds: 300)).then((_) {
+       Future<bool> appIsFirstLauch = CacheUtil.getBoolFromPreferences(PreferencesKeys.appIsFirstLauch);
+      appIsFirstLauch.then((value) {
+        if(value == null || value == false) {
+          showDialog();
+        }
+      });
     });
   }
 

@@ -4,6 +4,7 @@ import 'package:flutter_ctrip/navigator/tab_navigator.dart';
 import 'package:flutter_ctrip/router/routers.dart';
 import 'package:flutter_ctrip/util/app_util.dart';
 import 'package:flutter_ctrip/util/navigator_util.dart';
+import 'package:flutter_ctrip/util/shared_cache.dart';
 
 /**
  * 新特性页
@@ -108,6 +109,7 @@ class _State extends State<NewfeaturesPage> with WidgetsBindingObserver {
           child: new Text('跳过'),
         ),
         onTap: () {
+          CacheUtil.saveBoolToPreferences(PreferencesKeys.appIsFirstLauch, true);
           print('触发跳过');
           //Navigator.of(context).pop('测试');
           Routers.pushAndRemove(context, "/tabnavigator");
@@ -134,8 +136,9 @@ class _State extends State<NewfeaturesPage> with WidgetsBindingObserver {
   Widget _startOpenButton() {
     return new Positioned(
       child: new GestureDetector(
-        child: Image.asset('images/open_now.png'),
+        child: Text("开始体验"),
         onTap: () {
+          CacheUtil.saveBoolToPreferences(PreferencesKeys.appIsFirstLauch, true);
           print('点击了立即开启');
         },
       ),
