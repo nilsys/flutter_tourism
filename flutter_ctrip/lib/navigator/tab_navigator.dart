@@ -62,25 +62,19 @@ class _State extends State<TabNavigator>
 
   showBottomSheetDialog() {
     List<String> list = ['相册', '拍照'];
-    showGeneralDialog(
+    showModalBottomSheet(
         context: context,
-        pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
-        barrierDismissible: true,
-        barrierLabel: "",
-        transitionDuration: Duration(milliseconds: 0),
-        transitionBuilder: (context, anim1, anim2, child) {
-          return Transform.scale(
-              scale: anim1.value,
-              child: Opacity(
-                  opacity: anim1.value,
-                  child: BottomSheetDialog(
+        backgroundColor: Colors.transparent,
+        builder: (BuildContext context) {
+          return BottomSheetDialog(
                     datas: list,
                     cancelTitle: '取消',
                     confirmCallback: (value) {},
                     cancelCallback: () {},
-                  )));
-        });
+                  );
+        },
+        barrierColor: Colors.grey.withOpacity(.3),
+        );
   }
 
   Future _openModalBottomSheet() async {
