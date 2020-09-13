@@ -6,6 +6,7 @@ import 'package:flutter_ctrip/pages/travel_tab_page.dart';
 import 'package:flutter_ctrip/viewmodel/travelParamsViewModel.dart';
 import 'package:flutter_ctrip/widget/top_appbar.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_ctrip/util/loading_util.dart';
 
 /**
  * 旅游页
@@ -72,9 +73,11 @@ class _State extends State<TravelPage> with TickerProviderStateMixin {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     if (travelParamsVM == null) {
+      LoadingUtil().showLoadingDialog(context, "加载中...");
       travelParamsVM = Provider.of<TravelParamsViewModel>(context);
       // 发起网络请求
       travelParamsVM.loadParamsHandel(context, (bool status) {
+        LoadingUtil().hiddenDialog(context);
         if (status == true) {
           _controller = TabController(
               length: travelParamsVM.tabs.length,
