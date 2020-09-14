@@ -6,10 +6,7 @@
  **/
 
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter_ctrip/network/http_request_method.dart';
-
 import 'http_api.dart';
 import 'http_callbacks.dart';
 import 'service_interface.dart';

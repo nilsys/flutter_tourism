@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'http_request_method.dart';
 
 class Request {

@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'http_callbacks.dart';
 import 'http_error.dart';
+import 'http_network_status.dart';
 import 'http_request_method.dart';
 import 'http_request.dart';
 
@@ -79,9 +78,9 @@ class HttpUtil {
       HttpFailureCallback errorCallback) async {
     try {
       //检查网络是否连接
-      ConnectivityResult connectivityResult =
-          await (Connectivity().checkConnectivity());
-      if (connectivityResult == ConnectivityResult.none) {
+      bool isAvailableNetwork =
+          await HttpNetworkStatus.isAvailableNetwork();
+      if (!isAvailableNetwork) {
         print("请求网络异常，请稍后重试！");
         if (errorCallback != null) {
           errorCallback(HttpError(HttpError.NETWORK_ERROR, "网络异常，请稍后重试！"));
@@ -173,9 +172,9 @@ class HttpUtil {
       HttpProgressCallback progressCallback) async {
     try {
       //检查网络是否连接
-      ConnectivityResult connectivityResult =
-          await (Connectivity().checkConnectivity());
-      if (connectivityResult == ConnectivityResult.none) {
+      bool isAvailableNetwork =
+          await HttpNetworkStatus.isAvailableNetwork();
+      if (!isAvailableNetwork) {
         print("请求网络异常，请稍后重试！");
         if (errorCallback != null) {
           errorCallback(HttpError(HttpError.NETWORK_ERROR, "网络异常，请稍后重试！"));
@@ -241,9 +240,9 @@ class HttpUtil {
       HttpFailureCallback errorCallback}) async {
     try {
       //检查网络是否连接
-      ConnectivityResult connectivityResult =
-          await (Connectivity().checkConnectivity());
-      if (connectivityResult == ConnectivityResult.none) {
+      bool isAvailableNetwork =
+          await HttpNetworkStatus.isAvailableNetwork();
+      if (!isAvailableNetwork) {
         print("请求网络异常，请稍后重试！");
         if (errorCallback != null) {
           errorCallback(HttpError(HttpError.NETWORK_ERROR, "网络异常，请稍后重试！"));
