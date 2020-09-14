@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'request_method.dart';
+import 'http_request_method.dart';
 
 class Request {
   String url;
-  Method requestMethod;
+  HttpRequestMethod requestMethod;
   Map<String, dynamic> header;
   dynamic params;
   int connectTimeout;

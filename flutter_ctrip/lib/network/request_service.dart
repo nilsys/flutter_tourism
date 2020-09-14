@@ -8,12 +8,13 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter_ctrip/network/request_method.dart';
+import 'package:flutter_ctrip/network/http_request_method.dart';
 
-import 'api.dart';
+import 'http_api.dart';
+import 'http_callbacks.dart';
 import 'service_interface.dart';
-import 'dio_util.dart';
-import 'request.dart';
+import 'http_util.dart';
+import 'http_request.dart';
 
 class RequestManagement implements NetWorkApi {
   static RequestManagement _internal;
@@ -37,12 +38,12 @@ class RequestManagement implements NetWorkApi {
     headers['Accept'] = 'application/json';
     // TODO: implement toLogin
     Request request = new Request();
-    request.url = Api.baseApi + Api.login;
+    request.url = HttpApi.baseApi + HttpApi.login;
     request.params = params;
     request.header = headers;
     // json.encode(params);
-    request.requestMethod = Method.POST;
-    DioUtil()
+    request.requestMethod = HttpRequestMethod.POST;
+    HttpUtil()
         .sendRequest(request, successCallback: callBack, errorCallback: errorCallback);
   }
 
@@ -53,8 +54,8 @@ class RequestManagement implements NetWorkApi {
     Request request = new Request();
     request.url = "http://www.devio.org/io/flutter_app/json/travel_page.json";
     //request.params = params;
-    request.requestMethod = Method.GET;
-    DioUtil()
+    request.requestMethod = HttpRequestMethod.GET;
+    HttpUtil()
         .sendRequest(request, successCallback: callBack, errorCallback: errorCallback);
   }
 }

@@ -2,33 +2,25 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
+import 'http_callbacks.dart';
 import 'http_error.dart';
-import 'request_method.dart';
-import 'request.dart';
-
-///http请求成功回调
-typedef HttpSuccessCallback = void Function(Map<String, dynamic> data);
-
-///失败回调
-typedef HttpFailureCallback = void Function(HttpError data);
-
-///失败回调
-typedef HttpProgressCallback = void Function(int count, int total);
+import 'http_request_method.dart';
+import 'http_request.dart';
 
 // 参考：https://www.jianshu.com/p/a6d52872e976
-class DioUtil {
-  static final DioUtil _instance = DioUtil._init();
+class HttpUtil {
+  static final HttpUtil _instance = HttpUtil._init();
   static Dio _dio;
   static BaseOptions _options = getDefOptions();
 
   ///同一个CancelToken可以用于多个请求，当一个CancelToken取消时，所有使用该CancelToken的请求都会被取消，一个页面对应一个CancelToken。
   Map<String, CancelToken> _cancelTokens = Map<String, CancelToken>();
 
-  factory DioUtil() {
+  factory HttpUtil() {
     return _instance;
   }
 
-  DioUtil._init() {
+  HttpUtil._init() {
     _dio = new Dio();
   }
 
@@ -122,7 +114,7 @@ class DioUtil {
       FormData formData = request.params;
       Response response;
       switch (request.requestMethod) {
-        case Method.GET:
+        case HttpRequestMethod.GET:
           if (formData.fields.isNotEmpty && formData.fields != null) {
             response = await _dio.get(request.url,
                 queryParameters: Map.fromEntries(formData.fields));
@@ -130,7 +122,7 @@ class DioUtil {
             response = await _dio.get(request.url, cancelToken: cancelToken);
           }
           break;
-        case Method.POST:
+        case HttpRequestMethod.POST:
           if (formData.fields.isNotEmpty && formData.fields != null) {
             response = await _dio.post(request.url,
                 data: request.params,
@@ -267,12 +259,12 @@ class DioUtil {
       }
       Response response;
       switch (request.requestMethod) {
-        case Method.GET:
+        case HttpRequestMethod.GET:
           response = await _dio.get(request.url,
               queryParameters: request.params == null ? {} : request.params,
               cancelToken: cancelToken);
           break;
-        case Method.POST:
+        case HttpRequestMethod.POST:
           if (request.params == null) {
             response = await _dio.post(request.url, cancelToken: cancelToken);
           } else {

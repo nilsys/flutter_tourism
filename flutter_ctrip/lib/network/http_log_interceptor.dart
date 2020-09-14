@@ -5,8 +5,8 @@ void log2Console(Object object) {
 }
 
 /// @desc  自定义日志拦截器
-class LogInterceptor extends Interceptor {
-  LogInterceptor({
+class HttpLogInterceptor extends Interceptor {
+  HttpLogInterceptor({
     this.request = true,
     this.requestHeader = true,
     this.requestBody = false,
