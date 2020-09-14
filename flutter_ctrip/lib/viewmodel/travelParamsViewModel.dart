@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ctrip/model/travel_params_model.dart';
+import 'package:flutter_ctrip/network/http_error.dart';
 import 'package:flutter_ctrip/network/request_service.dart';
 
 class TravelParamsViewModel extends ChangeNotifier {
@@ -17,7 +18,7 @@ class TravelParamsViewModel extends ChangeNotifier {
           callback(true);
         }
       }
-    }, (DioError erorr) {
+    }, (HttpError erorr) {
       if (callback != null) {
         callback(false);
       }

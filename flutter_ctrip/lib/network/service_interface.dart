@@ -7,12 +7,13 @@
 
 import 'dart:async';
 import 'package:dio/dio.dart';
+import 'dio_util.dart';
 
 abstract class NetWorkApi {
   //  登录
-  Future<Null> toLogin(params, Function callBack, Function errorCallback);
+  Future<Null> toLogin(params, HttpSuccessCallback callBack, HttpFailureCallback errorCallback);
 
   // 旅拍页面导航菜单
   Future<Null> travelParams(
-      Map<String, dynamic> params, Function callBack, Function errorCallback);
+      Map<String, dynamic> params, HttpSuccessCallback callBack, HttpFailureCallback errorCallback);
 }

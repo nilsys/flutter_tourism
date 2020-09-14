@@ -31,6 +31,7 @@ class TimerCountDownWidgetState extends State<TimerCountDownWidget> {
       },
       child: RaisedButton(
         color: Colors.black12,
+        onPressed: () {  },
         child: Text(
           _countdownTime > 0 ? '$_countdownTime后重新获取' : '获取验证码',
           style: TextStyle(

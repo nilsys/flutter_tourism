@@ -32,7 +32,7 @@ class RequestManagement implements NetWorkApi {
 
   @override
   Future<Null> toLogin(
-      params, Function callBack, Function errorCallback) async {
+      params, HttpSuccessCallback callBack, HttpFailureCallback errorCallback) async {
     Map<String, dynamic> headers = Map<String, dynamic>();
     headers['Accept'] = 'application/json';
     // TODO: implement toLogin
@@ -43,18 +43,18 @@ class RequestManagement implements NetWorkApi {
     // json.encode(params);
     request.requestMethod = Method.POST;
     DioUtil()
-        .sendRequest(request, callback: callBack, errorCallBack: errorCallback);
+        .sendRequest(request, successCallback: callBack, errorCallback: errorCallback);
   }
 
   @override
   Future<Null> travelParams(
-      Map<String, dynamic> params, Function callBack, Function errorCallback) {
+      Map<String, dynamic> params, HttpSuccessCallback callBack, HttpFailureCallback errorCallback) {
     // TODO: implement travelParams
     Request request = new Request();
     request.url = "http://www.devio.org/io/flutter_app/json/travel_page.json";
     //request.params = params;
     request.requestMethod = Method.GET;
     DioUtil()
-        .sendRequest(request, callback: callBack, errorCallBack: errorCallback);
+        .sendRequest(request, successCallback: callBack, errorCallback: errorCallback);
   }
 }

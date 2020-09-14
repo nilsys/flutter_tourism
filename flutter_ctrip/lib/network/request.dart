@@ -10,6 +10,8 @@ class Request {
   int receiveTimeout;
   // 是否上传为json数据
   bool isPostJson;
+  String savePath;
+  String tag;
 
   Request() {
     isPostJson = false;

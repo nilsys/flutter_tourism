@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_ctrip/network/http_error.dart';
 import 'package:flutter_ctrip/network/request_service.dart';
 
 class LoginViewModel extends ChangeNotifier {
@@ -21,6 +22,6 @@ class LoginViewModel extends ChangeNotifier {
     params['mobile'] = userNameController.text;
     params['password'] = passwordController.text;
     RequestManagement.internal()
-        .toLogin(params, (result) {}, (DioError erorr) {});
+        .toLogin(params, (result) {}, (HttpError erorr) {});
   }
 }

@@ -1,13 +1,28 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
+import 'http_error.dart';
 import 'request_method.dart';
 import 'request.dart';
 
+///http请求成功回调
+typedef HttpSuccessCallback = void Function(Map<String, dynamic> data);
+
+///失败回调
+typedef HttpFailureCallback = void Function(HttpError data);
+
+///失败回调
+typedef HttpProgressCallback = void Function(int count, int total);
+
+// 参考：https://www.jianshu.com/p/a6d52872e976
 class DioUtil {
   static final DioUtil _instance = DioUtil._init();
   static Dio _dio;
   static BaseOptions _options = getDefOptions();
+
+  ///同一个CancelToken可以用于多个请求，当一个CancelToken取消时，所有使用该CancelToken的请求都会被取消，一个页面对应一个CancelToken。
+  Map<String, CancelToken> _cancelTokens = Map<String, CancelToken>();
 
   factory DioUtil() {
     return _instance;
@@ -17,26 +32,28 @@ class DioUtil {
     _dio = new Dio();
   }
 
+  // 添加拦截器
+  addInterceptors(List<Interceptor> interceptors) {
+    if (interceptors != null) {
+      _dio.interceptors.addAll(interceptors);
+    }
+  }
+
+  /// 取消网络请求
+  void cancel(String tag) {
+    if (_cancelTokens.containsKey(tag)) {
+      if (!_cancelTokens[tag].isCancelled) {
+        _cancelTokens[tag].cancel();
+      }
+      _cancelTokens.remove(tag);
+    }
+  }
+
   static BaseOptions getDefOptions() {
     BaseOptions options = BaseOptions();
     options.connectTimeout = 10 * 1000;
     options.receiveTimeout = 20 * 1000;
     options.contentType = 'application/x-www-form-urlencoded';
-
-    /*
-    Map<String, dynamic> headers = Map<String, dynamic>();
-    headers['Accept'] = 'application/json';
-
-    String platform;
-    if (Platform.isAndroid) {
-      platform = "Android";
-    } else if (Platform.isIOS) {
-      platform = "IOS";
-    }
-    headers['OS'] = platform;
-    options.headers = headers;
-    */
-
     return options;
   }
 
@@ -45,8 +62,10 @@ class DioUtil {
     _dio.options = _options;
   }
 
+  // get/post request
   Future<Map<String, dynamic>> sendRequest(Request request,
-      {Function callback, Function errorCallBack}) {
+      {HttpSuccessCallback successCallback,
+      HttpFailureCallback errorCallback}) {
     BaseOptions options = getDefOptions();
     options.connectTimeout = request.connectTimeout;
     options.receiveTimeout = request.receiveTimeout;
@@ -57,27 +76,27 @@ class DioUtil {
       options.contentType = 'application/json;charset=UTF-8';
     }
     setOptions(options);
-    return _request(request, callBack: callback, errorCallBack: errorCallBack);
+    return _request(request,
+        successCallback: successCallback, errorCallback: errorCallback);
   }
 
-  /**
-   * 表单数据提交
-   */
-  /*
-  FormData formData = FormData.fromMap({
-    "name": "wendux",
-    "age": 25,
-    "file": await MultipartFile.fromFile("./text.txt",filename: "upload.txt"),
-    "files": [
-      await MultipartFile.fromFile("./text1.txt", filename: "text1.txt"),
-      await MultipartFile.fromFile("./text2.txt", filename: "text2.txt"),
-    ]
- });
-   */
-  Future<Map<String, dynamic>> form(
-      Request request, Function callBack, Function errorCallBack) async {
+  // form request
+  Future<Map<String, dynamic>> sendform(
+      Request request,
+      HttpSuccessCallback successCallback,
+      HttpFailureCallback errorCallback) async {
     try {
-      var dio = new Dio();
+      //检查网络是否连接
+      ConnectivityResult connectivityResult =
+          await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        print("请求网络异常，请稍后重试！");
+        if (errorCallback != null) {
+          errorCallback(HttpError(HttpError.NETWORK_ERROR, "网络异常，请稍后重试！"));
+        }
+        return null;
+      }
+
       BaseOptions options = getDefOptions();
       options.connectTimeout = request.connectTimeout;
       options.receiveTimeout = request.receiveTimeout;
@@ -87,11 +106,18 @@ class DioUtil {
       if (request.isPostJson) {
         options.contentType = 'application/json;charset=UTF-8';
       }
-      dio.options = options;
+      _dio.options = options;
 
       if (!(request.params is FormData)) {
         print("params is FormData");
         return null;
+      }
+      CancelToken cancelToken;
+      String tag = request.tag;
+      if (tag != null) {
+        cancelToken =
+            _cancelTokens[tag] == null ? CancelToken() : _cancelTokens[tag];
+        _cancelTokens[tag] = cancelToken;
       }
       FormData formData = request.params;
       Response response;
@@ -101,15 +127,17 @@ class DioUtil {
             response = await _dio.get(request.url,
                 queryParameters: Map.fromEntries(formData.fields));
           } else {
-            response = await _dio.get(request.url);
+            response = await _dio.get(request.url, cancelToken: cancelToken);
           }
           break;
         case Method.POST:
           if (formData.fields.isNotEmpty && formData.fields != null) {
             response = await _dio.post(request.url,
-                data: request.params, queryParameters: request.params);
+                data: request.params,
+                queryParameters: request.params,
+                cancelToken: cancelToken);
           } else {
-            response = await _dio.post(request.url);
+            response = await _dio.post(request.url, cancelToken: cancelToken);
           }
           break;
       }
@@ -118,55 +146,140 @@ class DioUtil {
           " 请求参数：" +
           json.encode(formData.fields == null ? {} : formData.fields));
       if (response.data is Map) {
-        if (callBack != null) {
-          callBack(response.data);
+        if (successCallback != null) {
+          successCallback(response.data);
         }
         print("请求链接：" + request.url + " 响应结果：" + response.data.toString());
         return response.data;
       } else {
-        if (callBack != null) {
-          callBack(json.decode(response.data.toString()));
+        if (successCallback != null) {
+          successCallback(json.decode(response.data.toString()));
         }
-
         print("请求链接：" + request.url + " 响应结果：" + response.data.toString());
-        //Utf8Decoder utf8decoder = Utf8Decoder(); // fix 中文乱码
-        //utf8decoder.convert(response.data).toString();
         return json.decode(response.data.toString());
       }
     } on DioError catch (e) {
       print("请求链接：" + request.url + " 错误：" + e.message);
-      if (errorCallBack != null) {
-        errorCallBack(e);
+      if (errorCallback != null && e.type != DioErrorType.CANCEL) {
+        errorCallback(HttpError.dioError(e));
       }
-      // 请求错误处理
-      /*
-      Response errorResponse;
-      if (e.response != null) {
-        errorResponse = e.response;
+      return null;
+    } catch (e, s) {
+      print("未知异常出错：$e\n$s");
+      if (errorCallback != null) {
+        errorCallback(HttpError(HttpError.UNKNOWN, "网络异常，请稍后重试！"));
+      }
+      return null;
+    }
+  }
+
+  // file download request
+  Future<Map<String, dynamic>> sendDownload(
+      Request request,
+      HttpSuccessCallback successCallback,
+      HttpFailureCallback errorCallback,
+      HttpProgressCallback progressCallback) async {
+    try {
+      //检查网络是否连接
+      ConnectivityResult connectivityResult =
+          await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        print("请求网络异常，请稍后重试！");
+        if (errorCallback != null) {
+          errorCallback(HttpError(HttpError.NETWORK_ERROR, "网络异常，请稍后重试！"));
+        }
+        return null;
+      }
+
+      BaseOptions options = getDefOptions();
+      options.connectTimeout = request.connectTimeout;
+      ////0代表不设置超时
+      options.receiveTimeout = 0;
+      _dio.options = options;
+
+      CancelToken cancelToken;
+      String tag = request.tag;
+      if (tag != null) {
+        cancelToken =
+            _cancelTokens[tag] == null ? CancelToken() : _cancelTokens[tag];
+        _cancelTokens[tag] = cancelToken;
+      }
+
+      var params = request.params ?? {};
+      var url = _restfulUrl(request.url, params);
+
+      Response response = await _dio.download(url, request.savePath,
+          cancelToken: cancelToken,
+          onReceiveProgress: progressCallback,
+          queryParameters: params,
+          data: params);
+      print("请求链接：" +
+          request.url +
+          " 请求参数：" +
+          json.encode(request.params == null ? {} : request.params));
+      if (response.data is Map) {
+        if (successCallback != null) {
+          successCallback(response.data);
+        }
+        print("请求链接：" + request.url + " 响应结果：" + response.data.toString());
+        return response.data;
       } else {
-        errorResponse = new Response(statusCode: 201, statusMessage: e.message);
+        if (successCallback != null) {
+          successCallback(json.decode(response.data.toString()));
+        }
+        print("请求链接：" + request.url + " 响应结果：" + response.data.toString());
+        return json.decode(response.data.toString());
       }
-      */
-      _handleHttpError(errorCallBack, e);
+    } on DioError catch (e) {
+      print("请求链接：" + request.url + " 错误：" + e.message);
+      if (errorCallback != null && e.type != DioErrorType.CANCEL) {
+        errorCallback(HttpError.dioError(e));
+      }
+    } catch (e, s) {
+      print("未知异常出错：$e\n$s");
+      if (errorCallback != null) {
+        errorCallback(HttpError(HttpError.UNKNOWN, "网络异常，请稍后重试！"));
+      }
       return null;
     }
   }
 
   Future<Map<String, dynamic>> _request(Request request,
-      {Function callBack, Function errorCallBack}) async {
+      {HttpSuccessCallback successCallback,
+      HttpFailureCallback errorCallback}) async {
     try {
+      //检查网络是否连接
+      ConnectivityResult connectivityResult =
+          await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        print("请求网络异常，请稍后重试！");
+        if (errorCallback != null) {
+          errorCallback(HttpError(HttpError.NETWORK_ERROR, "网络异常，请稍后重试！"));
+        }
+        return null;
+      }
+      CancelToken cancelToken;
+      String tag = request.tag;
+      if (tag != null) {
+        cancelToken =
+            _cancelTokens[tag] == null ? CancelToken() : _cancelTokens[tag];
+        _cancelTokens[tag] = cancelToken;
+      }
       Response response;
       switch (request.requestMethod) {
         case Method.GET:
           response = await _dio.get(request.url,
-              queryParameters: request.params == null ? {} : request.params);
+              queryParameters: request.params == null ? {} : request.params,
+              cancelToken: cancelToken);
           break;
         case Method.POST:
           if (request.params == null) {
-            response = await _dio.post(request.url);
+            response = await _dio.post(request.url, cancelToken: cancelToken);
           } else {
             response = await _dio.post(request.url,
-                data: request.params, queryParameters: request.params);
+                data: request.params,
+                queryParameters: request.params,
+                cancelToken: cancelToken);
           }
           break;
       }
@@ -175,55 +288,43 @@ class DioUtil {
           " 请求参数：" +
           json.encode(request.params == null ? {} : request.params));
       if (response.data is Map) {
-        if (callBack != null) {
-          callBack(response.data);
+        if (successCallback != null) {
+          successCallback(response.data);
         }
         print("请求链接：" + request.url + " 响应结果：" + response.data.toString());
         return response.data;
       } else {
-        if (callBack != null) {
-          callBack(json.decode(response.data.toString()));
+        if (successCallback != null) {
+          successCallback(json.decode(response.data.toString()));
         }
         print("请求链接：" + request.url + " 响应结果：" + response.data.toString());
         return json.decode(response.data.toString());
       }
     } on DioError catch (e) {
       print("请求链接：" + request.url + " 错误：" + e.message);
-      if (errorCallBack != null) {
-        errorCallBack(e);
+      if (errorCallback != null && e.type != DioErrorType.CANCEL) {
+        errorCallback(HttpError.dioError(e));
       }
-      _handleHttpError(errorCallBack, e);
+      return null;
+    } catch (e, s) {
+      print("未知异常出错：$e\n$s");
+      if (errorCallback != null) {
+        errorCallback(HttpError(HttpError.UNKNOWN, "网络异常，请稍后重试！"));
+      }
       return null;
     }
   }
 
-  /// 处理Http错误码
-  void _handleHttpError(Function errorCallback, DioError e) {
-    if (e != null) {
-      print(" ------------- Error Msg ------------" + e.toString());
-      if (errorCallback != null) {
-        errorCallback(e);
+  ///restful处理
+  String _restfulUrl(String url, Map<String, dynamic> params) {
+    // restful 请求处理
+    // /gysw/search/hist/:user_id        user_id=27
+    // 最终生成 url 为     /gysw/search/hist/27
+    params.forEach((key, value) {
+      if (url.indexOf(key) != -1) {
+        url = url.replaceAll(':$key', value.toString());
       }
-      if (e.type == DioErrorType.CONNECT_TIMEOUT) {
-        // It occurs when url is opened timeout.
-        //ToastUtils.shortShort("连接超时");
-      } else if (e.type == DioErrorType.SEND_TIMEOUT) {
-        // It occurs when url is sent timeout.
-        //ToastUtils.shortShort("请求超时");
-      } else if (e.type == DioErrorType.RECEIVE_TIMEOUT) {
-        //It occurs when receiving timeout
-        //ToastUtils.shortShort("响应超时");
-      } else if (e.type == DioErrorType.RESPONSE) {
-        // When the server response, but with a incorrect status, such as 404, 503...
-        //ToastUtils.shortShort('无法访问服务器,请稍后再试');
-      } else if (e.type == DioErrorType.CANCEL) {
-        // When the request is cancelled, dio will throw a error with this type.
-        //ToastUtils.shortShort("请求取消");
-      } else {
-        //DEFAULT Default error type, Some other Error. In this case, you can read the DioError.error if it is not null.
-        //ToastUtils.shortShort("未知错误");
-      }
-    }
-    print("<net> errorMsg :" + e.message);
+    });
+    return url;
   }
 }

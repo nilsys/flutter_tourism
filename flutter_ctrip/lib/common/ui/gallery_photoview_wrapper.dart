@@ -104,11 +104,11 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
                 ),
                 onPressed: () {
                   if (Platform.isIOS) {
-                    return _savenNetworkImage();
+                    //return _savenNetworkImage();
                   }
                   requestPermission().then((bool) {
                     if (bool) {
-                      _savenNetworkImage();
+                     // _savenNetworkImage();
                     }
                   });
                 },
@@ -131,6 +131,7 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
     return status.isGranted;
   }
 
+/*
   //保存网络图片到本地
   _savenNetworkImage() async {
     var status = await Permission.photos.status;
@@ -172,6 +173,7 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
       }
     }
   }
+  */
 
   PhotoViewGalleryPageOptions _buildItem(BuildContext context, int index) {
     final GalleryExampleItem item = widget.galleryItems[index];
@@ -189,6 +191,7 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
     );
   }
 }
+
 
 //Hero 动画组件
 class GalleryExampleItemThumbnail extends StatelessWidget {
