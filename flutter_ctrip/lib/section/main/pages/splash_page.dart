@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ctrip/util/navigator_util.dart';
 import 'package:flutter_ctrip/navigator/tab_navigator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_ctrip/pages/newfeatures_page.dart';
+import 'package:flutter_ctrip/section/main/pages/newfeatures_page.dart';
 import 'package:flutter_ctrip/util/app_util.dart';
 import 'package:flutter_ctrip/router/routers.dart';
 

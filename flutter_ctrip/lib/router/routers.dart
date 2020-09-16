@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ctrip/navigator/tab_navigator.dart';
-import 'package:flutter_ctrip/pages/splash_page.dart';
-import 'package:flutter_ctrip/pages/newfeatures_page.dart';
-import 'package:flutter_ctrip/pages/login_page.dart';
+import 'package:flutter_ctrip/section/main/pages/splash_page.dart';
+import 'package:flutter_ctrip/section/main/pages/newfeatures_page.dart';
+import 'package:flutter_ctrip/section/login/pages/login_page.dart';
 
 class Routers {
 //  所有页面路由静态Map

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ctrip/dialogs/bottom_sheet_dialog.dart';
 import 'package:flutter_ctrip/dialogs/user_agreement_dialog.dart';
-import 'package:flutter_ctrip/pages/destination_page.dart';
-import 'package:flutter_ctrip/pages/home_page.dart';
-import 'package:flutter_ctrip/pages/my_page.dart';
-import 'package:flutter_ctrip/pages/travel_page.dart';
+import 'package:flutter_ctrip/section/destination_page.dart';
+import 'package:flutter_ctrip/section/home_page.dart';
+import 'package:flutter_ctrip/section/personcenter/pages/my_page.dart';
+import 'package:flutter_ctrip/section/travel_page.dart';
 import 'package:flutter_ctrip/util/shared_cache.dart';
 
 /**

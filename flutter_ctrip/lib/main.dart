@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_ctrip/pages/splash_page.dart';
+import 'package:flutter_ctrip/section/main/pages/splash_page.dart';
 import 'package:flutter_ctrip/provider/app_store.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';

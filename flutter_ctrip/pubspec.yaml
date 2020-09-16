@@ -78,6 +78,8 @@ dependencies:
   image_gallery_saver: ^1.2.2
   #权限申请
   permission_handler: 5.0.1+1
+  # 键盘问题(完成按钮)
+  keyboard_actions: ^3.3.0
   
 dev_dependencies:
   flutter_test:
