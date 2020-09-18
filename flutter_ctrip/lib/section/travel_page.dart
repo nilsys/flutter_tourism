@@ -4,7 +4,7 @@ import 'package:flutter_ctrip/model/travel_params_model.dart';
 import 'package:flutter_ctrip/network/request_service.dart';
 import 'package:flutter_ctrip/section/travel_tab_page.dart';
 import 'package:flutter_ctrip/viewmodel/travelParamsViewModel.dart';
-import 'package:flutter_ctrip/widget/top_appbar.dart';
+import 'package:flutter_ctrip/widgets/top_appbar.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_ctrip/util/loading_util.dart';
 

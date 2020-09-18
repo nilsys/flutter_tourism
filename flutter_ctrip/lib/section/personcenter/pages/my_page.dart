@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_ctrip/widget/webview.dart';
+import 'package:flutter_ctrip/widgets/webview.dart';
 
 /**
  * 我的

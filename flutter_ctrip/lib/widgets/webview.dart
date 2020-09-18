@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_ctrip/widget/loading_container.dart';
+import 'package:flutter_ctrip/widgets/loading_container.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 const CATCH_URLS = [
