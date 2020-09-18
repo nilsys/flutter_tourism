@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_ctrip/provider/provider_manager.dart';
 
 import 'generated/i18n.dart';
+import 'package:flutter/foundation.dart';
 
 void main() async {
   // 沉浸式状态栏
@@ -19,23 +20,28 @@ void main() async {
         SystemUiOverlayStyle(statusBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
-  runZoned(() {
-    ErrorWidget.builder = (FlutterErrorDetails details) {
-      Zone.current.handleUncaughtError(details.exception, details.stack);
-      return Center(
-        child: Text('出错啦'),
-      );
-    };
-    FlutterError.onError = (FlutterErrorDetails details) {
-      FlutterError.dumpErrorToConsole(details);
-      Zone.current.handleUncaughtError(details.exception, details.stack);
-    };
+
+  if (kReleaseMode) {
+    runZoned(() {
+      ErrorWidget.builder = (FlutterErrorDetails details) {
+        Zone.current.handleUncaughtError(details.exception, details.stack);
+        return Center(
+          child: Text('出错啦'),
+        );
+      };
+      FlutterError.onError = (FlutterErrorDetails details) {
+        FlutterError.dumpErrorToConsole(details);
+        Zone.current.handleUncaughtError(details.exception, details.stack);
+      };
+      runApp(MyApp());
+    }, onError: (Object obj, StackTrace stack) {
+      // 上传错误日志
+      print(obj);
+      print(stack);
+    });
+  } else {
     runApp(MyApp());
-  }, onError: (Object obj, StackTrace stack) {
-    // 上传错误日志
-    print(obj);
-    print(stack);
-  });
+  }
 }
 
 class MyApp extends StatelessWidget {

@@ -16,9 +16,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _State extends State<LoginPage> {
+  TextEditingController _userNameController = new TextEditingController();
+  TextEditingController _passwordController = new TextEditingController();
   LoginViewModel loginVM;
-  //var _username = "";
-  //var _password = "";
 
   @override
   void initState() {
@@ -61,11 +61,11 @@ class _State extends State<LoginPage> {
     // 带清除按钮
     return new Stack(alignment: const Alignment(1.0, 1.0), children: <Widget>[
       new TextField(
-        controller: loginVM.userNameController,
+        controller: _userNameController,
       ),
       new FlatButton(
           onPressed: () {
-            loginVM.userNameController.clear();
+            _userNameController.clear();
           },
           child: new Icon(Icons.clear))
     ]);
@@ -75,7 +75,7 @@ class _State extends State<LoginPage> {
   Widget _passwordTextField() {
     return TextField(
       obscureText: true,
-      controller: loginVM.passwordController,
+      controller: _passwordController,
       decoration: InputDecoration(hintText: "请输入密码"),
       onChanged: (value) {
         setState(() {
@@ -92,7 +92,7 @@ class _State extends State<LoginPage> {
         child: Text("登录"),
         color: Colors.blue,
         onPressed: () async {
-          loginVM.loginHandel(context);
+
         },
       ),
     );

@@ -16,7 +16,8 @@ class TravelPage extends StatefulWidget {
   _State createState() => _State();
 }
 
-class _State extends State<TravelPage> with TickerProviderStateMixin {
+class _State extends State<TravelPage>
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   TabController _controller;
   TravelParamsViewModel travelParamsVM;
 
@@ -99,7 +100,7 @@ class _State extends State<TravelPage> with TickerProviderStateMixin {
     //travelParamsVM = Provider.of<TravelParamsViewModel>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("appBar"),
+        title: Text("旅拍"),
         elevation: 0,
         centerTitle: true,
       ),
@@ -108,4 +109,8 @@ class _State extends State<TravelPage> with TickerProviderStateMixin {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

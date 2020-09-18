@@ -4,6 +4,7 @@ import 'package:flutter_ctrip/network/http_error.dart';
 import 'package:flutter_ctrip/network/request_service.dart';
 
 class LoginViewModel extends ChangeNotifier {
+  /*
   TextEditingController userNameController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
@@ -24,4 +25,5 @@ class LoginViewModel extends ChangeNotifier {
     RequestManagement.internal()
         .toLogin(params, (result) {}, (HttpError erorr) {});
   }
+  */
 }
