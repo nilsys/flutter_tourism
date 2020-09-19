@@ -8,7 +8,27 @@ class GroupListView extends StatefulWidget {
 
 class _State extends State<GroupListView> {
   ListViewGroupHandler _groupHandler;
-  List datas = ["1233", "1233"];
+  List datas = [
+    "1233",
+    "1233",
+    "1233",
+    "1233",
+    "1233",
+    "1233",
+    "1233",
+    "1233",
+    "1233",
+    "1233",
+    "1233",
+    "1233"
+  ];
+  ScrollController _scrollController = ScrollController();
+
+  _onPress() {
+    _scrollController.animateTo(5,
+        duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+    //_scrollController.jumpTo(100);
+  }
 
 //每次刷新的时候调用
   void _reloadData() {
@@ -52,6 +72,7 @@ class _State extends State<GroupListView> {
 
   _listViewWidget() {
     return ListView.builder(
+      controller: _scrollController,
       itemCount: _groupHandler.allItemCount,
       itemBuilder: (context, index) {
         return _groupHandler.cellAtIndex(index);
@@ -62,7 +83,20 @@ class _State extends State<GroupListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _listViewWidget(),
+      body: Stack(
+        children: [
+          _listViewWidget(),
+          Positioned(
+              bottom: 0,
+              right: 0,
+              child: FlatButton(
+                  color: Colors.orange,
+                  onPressed: () {
+                    _onPress();
+                  },
+                  child: Text("点击")))
+        ],
+      ),
     );
   }
 
