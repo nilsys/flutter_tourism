@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ctrip/widgets/refresh_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 /**
  * 动态数据ListView
@@ -9,6 +11,8 @@ class ListViews extends StatefulWidget {
 }
 
 class _State extends State<ListViews> {
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   Widget _randerRow(context, index) {
     return Text(index.toString());
@@ -59,7 +63,22 @@ class _State extends State<ListViews> {
       appBar: AppBar(
         title: Text("DynamicListView"),
       ),
-      body: _dynamicListView(),
+      body: SmartRefresher(
+        controller: _refreshController,
+        enablePullDown: true,
+        enablePullUp: true,
+        header: RefresherHeader(),
+        footer: RefresherFooter(),
+        onRefresh: () {
+          _refreshController.refreshCompleted();
+        },
+        onLoading: () {
+          _refreshController.loadComplete();
+          //_refreshController.loadNoData();
+          //_refreshController.resetNoData();
+        },
+        child: _dynamicListView(),
+      ),
     );
   }
 }
