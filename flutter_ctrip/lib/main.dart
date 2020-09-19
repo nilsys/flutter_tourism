@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_ctrip/demo/group_list_view.dart';
 import 'package:flutter_ctrip/section/main/pages/splash_page.dart';
 import 'package:flutter_ctrip/provider/app_store.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -81,7 +82,7 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: I18n.delegate.supportedLocales,
           theme: Provider.of<AppStore>(context, listen: false).themeData,
-          home: SplashPage(),
+          home: GroupListView(),
         );
       }),
     );
