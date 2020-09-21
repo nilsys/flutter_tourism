@@ -78,3 +78,4 @@ class RefresherHeader extends StatelessWidget {
     });
   }
 }
+

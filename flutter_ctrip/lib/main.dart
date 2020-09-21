@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_ctrip/demo/group_list_view.dart';
 import 'package:flutter_ctrip/section/main/pages/splash_page.dart';
 import 'package:flutter_ctrip/provider/app_store.dart';
+import 'package:flutter_ctrip/util/app_context.dart';
+import 'package:flutter_ctrip/util/navigator_state.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_ctrip/provider/provider_manager.dart';
@@ -46,8 +48,10 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+ 
   @override
   Widget build(BuildContext context) {
+    
     SystemUiOverlayStyle style = SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
 
@@ -61,6 +65,7 @@ class MyApp extends StatelessWidget {
       providers: ProviderManager.providers,
       child: Consumer<AppStore>(builder: (context, userStore, _) {
         return MaterialApp(
+          navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
           title: 'trip',
           builder: (context, child) => Scaffold(
@@ -82,7 +87,7 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: I18n.delegate.supportedLocales,
           theme: Provider.of<AppStore>(context, listen: false).themeData,
-          home: GroupListView(),
+          home: SplashPage(),
         );
       }),
     );

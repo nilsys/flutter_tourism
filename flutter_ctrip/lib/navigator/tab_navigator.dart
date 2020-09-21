@@ -5,6 +5,7 @@ import 'package:flutter_ctrip/section/destination_page.dart';
 import 'package:flutter_ctrip/section/home_page.dart';
 import 'package:flutter_ctrip/section/personcenter/pages/my_page.dart';
 import 'package:flutter_ctrip/section/travel_page.dart';
+import 'package:flutter_ctrip/util/app_context.dart';
 import 'package:flutter_ctrip/util/shared_cache.dart';
 
 /**
@@ -31,9 +32,10 @@ class _State extends State<TabNavigator>
     );
 
     Future.delayed(Duration(milliseconds: 300)).then((_) {
-       Future<bool> appIsFirstLauch = CacheUtil.getBoolFromPreferences(PreferencesKeys.appIsFirstLauch);
+      Future<bool> appIsFirstLauch =
+          CacheUtil.getBoolFromPreferences(PreferencesKeys.appIsFirstLauch);
       appIsFirstLauch.then((value) {
-        if(value == null || value == false) {
+        if (value == null || value == false) {
           showDialog();
         }
       });
@@ -67,18 +69,18 @@ class _State extends State<TabNavigator>
   showBottomSheetDialog() {
     List<String> list = ['相册', '拍照'];
     showModalBottomSheet(
-        context: context,
-        backgroundColor: Colors.transparent,
-        builder: (BuildContext context) {
-          return BottomSheetDialog(
-                    datas: list,
-                    cancelTitle: '取消',
-                    confirmCallback: (value) {},
-                    cancelCallback: () {},
-                  );
-        },
-        barrierColor: Colors.grey.withOpacity(.3),
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return BottomSheetDialog(
+          datas: list,
+          cancelTitle: '取消',
+          confirmCallback: (value) {},
+          cancelCallback: () {},
         );
+      },
+      barrierColor: Colors.grey.withOpacity(.3),
+    );
   }
 
   Future _openModalBottomSheet() async {

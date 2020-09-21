@@ -1,10 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ctrip/model/travel_params_model.dart';
-import 'package:flutter_ctrip/network/request_service.dart';
 import 'package:flutter_ctrip/section/travel_tab_page.dart';
+import 'package:flutter_ctrip/util/app_context.dart';
+import 'package:flutter_ctrip/util/navigator_state.dart';
 import 'package:flutter_ctrip/viewmodel/travelParamsViewModel.dart';
-import 'package:flutter_ctrip/widgets/top_appbar.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_ctrip/util/loading_util.dart';
 
@@ -74,11 +73,11 @@ class _State extends State<TravelPage>
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     if (travelParamsVM == null) {
-      LoadingUtil().showLoadingDialog(context, "加载中...");
+      LoadingUtil().showLoadingDialog(APPContext.context, "加载中...");
       travelParamsVM = Provider.of<TravelParamsViewModel>(context);
       // 发起网络请求
       travelParamsVM.loadParamsHandel(context, (bool status) {
-        LoadingUtil().hiddenDialog(context);
+        LoadingUtil().hiddenDialog(APPContext.context);
         if (status == true) {
           _controller = TabController(
               length: travelParamsVM.tabs.length,
