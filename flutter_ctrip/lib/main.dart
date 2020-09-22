@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_ctrip/demo/group_list_view.dart';
-import 'package:flutter_ctrip/section/main/pages/splash_page.dart';
+import 'package:flutter_ctrip/section/main/splash_page.dart';
 import 'package:flutter_ctrip/provider/app_store.dart';
 import 'package:flutter_ctrip/util/app_context.dart';
 import 'package:flutter_ctrip/util/navigator_state.dart';
