@@ -21,6 +21,7 @@ class _State extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
+    // 设计图的尺寸
     ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
     return Scaffold(
       body: Container(

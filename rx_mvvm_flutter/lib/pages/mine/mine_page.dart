@@ -280,7 +280,7 @@ class _State extends State<MinePage> {
 
   void aboutUs() {
     if (isLogin) {
-      //NavigatorUtils.goAboutUs(context);
+      Routers.pushName(context, RoutePaths.about);
     } else {
       _toLogin();
     }

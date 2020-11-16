@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rx_mvvm_flutter/pages/login/login_page.dart';
 import 'package:rx_mvvm_flutter/pages/login/register_page.dart';
 import 'package:rx_mvvm_flutter/pages/main/main_tab.dart';
+import 'package:rx_mvvm_flutter/pages/mine/about_page.dart';
 import 'package:rx_mvvm_flutter/pages/splash/splash_page.dart';
 import 'package:rx_mvvm_flutter/router/route_paths.dart';
 
@@ -13,6 +14,7 @@ class Routers {
     RoutePaths.login: (BuildContext context, {Map argument}) => LoginPage(),
     RoutePaths.register: (BuildContext context, {Map argument}) =>
         RegisterPage(),
+    RoutePaths.about: (BuildContext context, {Map argument}) => AboutUsPage(),
     // '/login': (BuildContext context, {Map argument}) =>
     //     new LoginPage(arguments: argument),
     // '/newfeatures': (BuildContext context, {Map argument}) =>
