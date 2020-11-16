@@ -85,7 +85,8 @@ class HttpUtil {
   }
 
   //post Form请求
-  postForm(url, {data, options, cancelToken}) async {
+  postForm(url,
+      {FormData data, Options options, CancelToken cancelToken}) async {
     Response response;
     try {
       response = await dio.post(url,
