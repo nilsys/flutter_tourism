@@ -1,12 +1,10 @@
 import 'package:dio/dio.dart';
 
-var dio;
-
 class HttpUtil {
   // 工厂模式
   static HttpUtil get instance => _getInstance();
-
   static HttpUtil _httpUtil;
+  var _dio;
 
   static HttpUtil _getInstance() {
     if (_httpUtil == null) {
@@ -20,18 +18,18 @@ class HttpUtil {
       connectTimeout: 5000,
       receiveTimeout: 5000,
     );
-    dio = new Dio(options);
-    dio.interceptors
+    _dio = new Dio(options);
+    _dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
       print("========================请求数据===================");
       print("url=${options.uri.toString()}");
       print("params=${options.data}");
-      dio.lock();
+      _dio.lock();
       //  await SharedPreferencesUtils.getToken().then((token) {
       //     options.headers[Strings.TOKEN] = token;
       //     print("X-Litemall-Token=${options.headers[Strings.TOKEN]}");
       //   });
-      dio.unlock();
+      _dio.unlock();
       return options;
     }, onResponse: (Response response) {
       print("========================请求数据===================");
@@ -49,17 +47,18 @@ class HttpUtil {
       CancelToken cancelToken}) async {
     Response response;
     if (parameters != null && options != null) {
-      response = await dio.get(url,
+      response = await _dio.get(url,
           queryParameters: parameters,
           options: options,
           cancelToken: cancelToken);
     } else if (parameters != null && options == null) {
-      response = await dio.get(url,
+      response = await _dio.get(url,
           queryParameters: parameters, cancelToken: cancelToken);
     } else if (parameters == null && options != null) {
-      response = await dio.get(url, options: options, cancelToken: cancelToken);
+      response =
+          await _dio.get(url, options: options, cancelToken: cancelToken);
     } else {
-      response = await dio.get(url, cancelToken: cancelToken);
+      response = await _dio.get(url, cancelToken: cancelToken);
     }
     return response.data;
   }
@@ -70,16 +69,16 @@ class HttpUtil {
       CancelToken cancelToken}) async {
     Response response;
     if (parameters != null && options != null) {
-      response = await dio.post(url,
+      response = await _dio.post(url,
           data: parameters, options: options, cancelToken: cancelToken);
     } else if (parameters != null && options == null) {
       response =
-          await dio.post(url, data: parameters, cancelToken: cancelToken);
+          await _dio.post(url, data: parameters, cancelToken: cancelToken);
     } else if (parameters == null && options != null) {
       response =
-          await dio.post(url, options: options, cancelToken: cancelToken);
+          await _dio.post(url, options: options, cancelToken: cancelToken);
     } else {
-      response = await dio.post(url, cancelToken: cancelToken);
+      response = await _dio.post(url, cancelToken: cancelToken);
     }
     return response.data;
   }
@@ -89,7 +88,7 @@ class HttpUtil {
       {FormData data, Options options, CancelToken cancelToken}) async {
     Response response;
     try {
-      response = await dio.post(url,
+      response = await _dio.post(url,
           options: options, cancelToken: cancelToken, data: data);
       print('postHttp response: $response');
     } on DioError catch (e) {
@@ -103,7 +102,7 @@ class HttpUtil {
   downLoadFile(urlPath, savePath) async {
     Response response;
     try {
-      response = await dio.download(urlPath, savePath,
+      response = await _dio.download(urlPath, savePath,
           onReceiveProgress: (int count, int total) {
         print('$count $total');
       });
