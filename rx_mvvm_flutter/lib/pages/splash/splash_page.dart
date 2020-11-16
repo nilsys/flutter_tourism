@@ -15,7 +15,7 @@ class _State extends State<SplashPage> {
     super.initState();
     // 启动图三秒
     Future.delayed(Duration(seconds: 3), () {
-      Routers.pushAndRemove(context, RoutePaths.login);
+      Routers.pushAndRemove(context, RoutePaths.root);
     });
   }
 

@@ -39,4 +39,18 @@ class UserService {
       onFail(Strings.SERVER_EXCEPTION);
     }
   }
+
+  Future loginOut(OnSuccess onSuccess, OnFail onFail) async {
+    try {
+      var response = await HttpUtil.instance.post(API.LOGIN_OUT);
+      if (response['errno'] == 0) {
+        onSuccess(Strings.SUCCESS);
+      } else {
+        onFail(response['errmsg']);
+      }
+    } catch (e) {
+      print(e);
+      onFail(Strings.SERVER_EXCEPTION);
+    }
+  }
 }

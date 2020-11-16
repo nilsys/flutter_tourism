@@ -3,4 +3,5 @@ class API {
   static const BASE_URL = 'http://120.25.226.11:8080/mall-app/wx';
   static const String REGISTER = BASE_URL + '/auth/register'; //注册
   static const String LOGIN = BASE_URL + '/auth/login'; //登录
+  static const String LOGIN_OUT = BASE_URL + "/auth/logout"; //退出登录
 }
