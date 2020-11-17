@@ -1,7 +1,6 @@
 import 'package:rx_mvvm_flutter/constant/string.dart';
 import 'package:rx_mvvm_flutter/entity/user_entity.dart';
-import 'package:rx_mvvm_flutter/network/api.dart';
-import 'package:rx_mvvm_flutter/network/http_util.dart';
+import 'package:rx_mvvm_flutter/network/network_header.dart';
 
 typedef OnSuccess<T>(T data);
 typedef OnFail(String message);
