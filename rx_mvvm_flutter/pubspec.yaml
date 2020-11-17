@@ -25,7 +25,7 @@ dependencies:
     sdk: flutter
   flutter_swiper: ^1.1.6
   # https://blog.csdn.net/qq_31350875/article/details/90498384 
-  json_annotation: ^2.3.0
+  #json_annotation: ^2.3.0
   dio: ^3.0.9
   flutter_spinkit: ^4.1.2
   #  pull_to_refresh: ^1.4.7
@@ -43,6 +43,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
+  json_annotation: ^3.0.0
+  analyzer: 0.38.2
   
 
 dev_dependencies:
