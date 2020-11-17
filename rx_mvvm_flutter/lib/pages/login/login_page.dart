@@ -8,6 +8,7 @@ import 'package:rx_mvvm_flutter/router/route_paths.dart';
 import 'package:rx_mvvm_flutter/router/routers.dart';
 import 'package:rx_mvvm_flutter/service/user_service.dart';
 import 'package:rx_mvvm_flutter/utils/shared_preferences_util.dart';
+import 'package:rx_mvvm_flutter/widgets/dialog/dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -23,6 +24,8 @@ class _State extends State<LoginPage> {
   UserEntity userEntity;
   bool _autovalidator = false;
   final registerFormKey = GlobalKey<FormState>();
+
+  final _loading = LoadingDialog();
 
   @override
   void initState() {
@@ -171,7 +174,9 @@ class _State extends State<LoginPage> {
       Map<String, dynamic> map = Map();
       map.putIfAbsent("username", () => _accountTextControl.text.toString());
       map.putIfAbsent("password", () => _passwordTextControl.text.toString());
+      _loading.show(context);
       userService.login(map, (success) {
+        _loading.hide(context);
         print(success);
         userEntity = success;
         _saveUserInfo();
@@ -181,6 +186,7 @@ class _State extends State<LoginPage> {
             nickName: userEntity.userInfo.nickName));
         Navigator.pop(context);
       }, (onFail) {
+        _loading.hide(context);
         print(onFail);
         _showToast(onFail);
       });
