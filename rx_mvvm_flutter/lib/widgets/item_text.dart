@@ -12,7 +12,9 @@ class ItemTextView extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        callback();
+        if (callback != null) {
+          callback();
+        }
       },
       child: Container(
         padding: EdgeInsets.only(
