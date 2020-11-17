@@ -46,19 +46,24 @@ class HttpUtil {
       Options options,
       CancelToken cancelToken}) async {
     Response response;
-    if (parameters != null && options != null) {
-      response = await _dio.get(url,
-          queryParameters: parameters,
-          options: options,
-          cancelToken: cancelToken);
-    } else if (parameters != null && options == null) {
-      response = await _dio.get(url,
-          queryParameters: parameters, cancelToken: cancelToken);
-    } else if (parameters == null && options != null) {
-      response =
-          await _dio.get(url, options: options, cancelToken: cancelToken);
-    } else {
-      response = await _dio.get(url, cancelToken: cancelToken);
+    try {
+      if (parameters != null && options != null) {
+        response = await _dio.get(url,
+            queryParameters: parameters,
+            options: options,
+            cancelToken: cancelToken);
+      } else if (parameters != null && options == null) {
+        response = await _dio.get(url,
+            queryParameters: parameters, cancelToken: cancelToken);
+      } else if (parameters == null && options != null) {
+        response =
+            await _dio.get(url, options: options, cancelToken: cancelToken);
+      } else {
+        response = await _dio.get(url, cancelToken: cancelToken);
+      }
+    } on DioError catch (e) {
+      print('postHttp exception: $e');
+      formatError(e);
     }
     return response.data;
   }
@@ -68,17 +73,22 @@ class HttpUtil {
       Options options,
       CancelToken cancelToken}) async {
     Response response;
-    if (parameters != null && options != null) {
-      response = await _dio.post(url,
-          data: parameters, options: options, cancelToken: cancelToken);
-    } else if (parameters != null && options == null) {
-      response =
-          await _dio.post(url, data: parameters, cancelToken: cancelToken);
-    } else if (parameters == null && options != null) {
-      response =
-          await _dio.post(url, options: options, cancelToken: cancelToken);
-    } else {
-      response = await _dio.post(url, cancelToken: cancelToken);
+    try {
+      if (parameters != null && options != null) {
+        response = await _dio.post(url,
+            data: parameters, options: options, cancelToken: cancelToken);
+      } else if (parameters != null && options == null) {
+        response =
+            await _dio.post(url, data: parameters, cancelToken: cancelToken);
+      } else if (parameters == null && options != null) {
+        response =
+            await _dio.post(url, options: options, cancelToken: cancelToken);
+      } else {
+        response = await _dio.post(url, cancelToken: cancelToken);
+      }
+    } on DioError catch (e) {
+      print('postHttp exception: $e');
+      formatError(e);
     }
     return response.data;
   }
