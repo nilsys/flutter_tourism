@@ -25,6 +25,7 @@ class _State extends State<MinePage> {
   void initState() {
     super.initState();
     _getUserInfo();
+    _refreshEvent();
   }
 
   _refreshEvent() {
@@ -65,7 +66,7 @@ class _State extends State<MinePage> {
 
   @override
   Widget build(BuildContext context) {
-    _refreshEvent();
+    //_refreshEvent();
     return Scaffold(
       appBar: AppBar(
         title: Text(Strings.MINE),
