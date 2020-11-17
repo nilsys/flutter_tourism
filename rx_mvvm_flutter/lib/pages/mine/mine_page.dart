@@ -274,6 +274,7 @@ class _State extends State<MinePage> {
   void address() {
     if (isLogin) {
       //NavigatorUtils.goAddress(context);
+      Routers.pushName(context, RoutePaths.address);
     } else {
       _toLogin();
     }

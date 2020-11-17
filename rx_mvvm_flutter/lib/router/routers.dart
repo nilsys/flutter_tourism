@@ -3,6 +3,8 @@ import 'package:rx_mvvm_flutter/pages/login/login_page.dart';
 import 'package:rx_mvvm_flutter/pages/login/register_page.dart';
 import 'package:rx_mvvm_flutter/pages/main/main_tab.dart';
 import 'package:rx_mvvm_flutter/pages/mine/about_page.dart';
+import 'package:rx_mvvm_flutter/pages/mine/address_page.dart';
+import 'package:rx_mvvm_flutter/pages/mine/edit_address_page.dart';
 import 'package:rx_mvvm_flutter/pages/splash/splash_page.dart';
 import 'package:rx_mvvm_flutter/router/route_paths.dart';
 
@@ -15,6 +17,8 @@ class Routers {
     RoutePaths.register: (BuildContext context, {Map argument}) =>
         RegisterPage(),
     RoutePaths.about: (BuildContext context, {Map argument}) => AboutUsPage(),
+    RoutePaths.address: (BuildContext context, {Map argument}) => AddressPage(),
+    RoutePaths.editAddress: (BuildContext context, {Map argument}) => EditAddressPage(),
     // '/login': (BuildContext context, {Map argument}) =>
     //     new LoginPage(arguments: argument),
     // '/newfeatures': (BuildContext context, {Map argument}) =>
