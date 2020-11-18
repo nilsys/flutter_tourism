@@ -3,6 +3,8 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rx_mvvm_flutter/constant/string.dart';
 import 'package:rx_mvvm_flutter/entity/home_entity.dart';
+import 'package:rx_mvvm_flutter/pages/home/home_category_menu_widget.dart';
+import 'package:rx_mvvm_flutter/pages/home/home_coupon_widget.dart';
 import 'package:rx_mvvm_flutter/pages/home/home_swiper_widget.dart';
 import 'package:rx_mvvm_flutter/service/home_service.dart';
 import 'package:rx_mvvm_flutter/utils/utils_header.dart';
@@ -74,7 +76,17 @@ class _State extends State<HomePage> {
                   children: <Widget>[
                     HomeSwiperWidget(
                         bannerData: _homeData.banner,
-                        height: ScreenUtil.instance.setHeight(360.0))
+                        height: ScreenUtil.instance.setHeight(360.0)),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10.0),
+                    ),
+                    HomeCategoryMenuWidget(_homeData.channel),
+                    Container(
+                      height: (_homeData.couponList == null || _homeData.couponList.length == 0) ? 0 : 40.0,
+                      alignment: Alignment.center,
+                      child: Text(Strings.COUPON_AREA),
+                    ),
+                    HomeCouponWidget(_homeData.couponList),
                   ],
                 ),
               ),

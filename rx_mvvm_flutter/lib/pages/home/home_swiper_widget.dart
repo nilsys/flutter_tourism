@@ -5,6 +5,7 @@ import 'package:rx_mvvm_flutter/constant/string.dart';
 import 'package:rx_mvvm_flutter/entity/home_entity.dart';
 import 'package:rx_mvvm_flutter/widgets/cached_image.dart';
 
+// 首页轮播广告
 class HomeSwiperWidget extends StatefulWidget {
   final List<HomeBanner> bannerData;
   final double height;
