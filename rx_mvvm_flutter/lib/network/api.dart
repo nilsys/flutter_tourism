@@ -5,6 +5,9 @@ class API {
   static const String LOGIN = BASE_URL + '/auth/login'; //登录
   static const String LOGIN_OUT = BASE_URL + "/auth/logout"; //退出登录
 
+  static const String HOME_URL = BASE_URL + '/home/index'; //首页数据
+  static const String BANNER_URL = BASE_URL + '/home/banner'; //获取首页banner图
+
   static const String ADDRESS_LIST = BASE_URL + '/address/list'; //地址列表
   static const String ADDRESS_SAVE = BASE_URL + '/address/save'; //增加地址
   static const String ADDRESS_DELETE = BASE_URL + '/address/delete'; //删除地址

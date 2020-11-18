@@ -65,6 +65,8 @@ dependencies:
   json_annotation: ^3.0.0
   # 对象比较相等
   equatable: ^1.2.5
+  # UI框架
+  weui: 0.0.5
 
 dev_dependencies:
   flutter_test:
