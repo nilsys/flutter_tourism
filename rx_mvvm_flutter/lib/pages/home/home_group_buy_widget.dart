@@ -15,7 +15,9 @@ class HomeGroupBuyWidget extends StatefulWidget {
 class _State extends State<HomeGroupBuyWidget> {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    bool isEmpty =
+        widget.groupEntitys == null || widget.groupEntitys.length == 0;
+    return isEmpty ? Container() : ListView.builder(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: widget.groupEntitys.length,

@@ -3,6 +3,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rx_mvvm_flutter/constant/string.dart';
 import 'package:rx_mvvm_flutter/entity/home_entity.dart';
+import 'package:rx_mvvm_flutter/pages/home/home_brand_widget.dart';
 import 'package:rx_mvvm_flutter/pages/home/home_category_menu_widget.dart';
 import 'package:rx_mvvm_flutter/pages/home/home_coupon_widget.dart';
 import 'package:rx_mvvm_flutter/pages/home/home_group_buy_widget.dart';
@@ -77,7 +78,7 @@ class _State extends State<HomePage> {
                   children: <Widget>[
                     // 轮播图
                     HomeSwiperWidget(
-                        bannerData: _homeData.banner,
+                        bannerData: _homeData.banner,// isEmpty(_homeData.banner)
                         height: ScreenUtil.instance.setHeight(360.0)),
                     Padding(
                       padding: EdgeInsets.only(top: 10.0),
@@ -86,10 +87,7 @@ class _State extends State<HomePage> {
                     HomeCategoryMenuWidget(_homeData.channel),
                     // 优惠券
                     Container(
-                      height: (_homeData.couponList == null ||
-                              _homeData.couponList.length == 0)
-                          ? 0
-                          : 40.0,
+                      height: 40.0,
                       alignment: Alignment.center,
                       child: Text(Strings.COUPON_AREA),
                     ),
@@ -102,7 +100,13 @@ class _State extends State<HomePage> {
                     ),
                     HomeGroupBuyWidget(
                       groupEntitys: _homeData.grouponList,
-                    )
+                    ),
+                    Container(
+                      height: 40.0,
+                      alignment: Alignment.center,
+                      child: Text(Strings.BRAND),
+                    ),
+                    HomeBrandWidget(brands: _homeData.brandList),
                   ],
                 ),
               ),

@@ -14,8 +14,10 @@ class HomeCouponWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isEmpty =
+        couponList == null || couponList.length == 0;
     return Container(
-        child: ListView.builder(
+        child: isEmpty ? Container() : ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: couponList.length,

@@ -18,24 +18,27 @@ class HomeCategoryMenuWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isEmpty = categoryList == null || categoryList.length == 0;
     return Container(
-        child: GridView.builder(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: categoryList.length,
-      itemBuilder: (BuildContext context, int index) {
-        //  return _getGridViewItem(categoryList[index]);
-        return _getGridViewItem(context, categoryList[index]);
-      },
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        //单个子Widget的水平最大宽度
-        crossAxisCount: 5,
-        //水平单个子Widget之间间距
-        mainAxisSpacing: ScreenUtil.instance.setWidth(20.0),
-        //垂直单个子Widget之间间距
-        crossAxisSpacing: ScreenUtil.instance.setWidth(20.0),
-      ),
-    ));
+        child: isEmpty
+            ? Container()
+            : GridView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: categoryList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  //  return _getGridViewItem(categoryList[index]);
+                  return _getGridViewItem(context, categoryList[index]);
+                },
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  //单个子Widget的水平最大宽度
+                  crossAxisCount: 5,
+                  //水平单个子Widget之间间距
+                  mainAxisSpacing: ScreenUtil.instance.setWidth(20.0),
+                  //垂直单个子Widget之间间距
+                  crossAxisSpacing: ScreenUtil.instance.setWidth(20.0),
+                ),
+              ));
   }
 
   Widget _getGridViewItem(BuildContext context, HomeChannel channel) {

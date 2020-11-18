@@ -21,11 +21,13 @@ class _State extends State<HomeSwiperWidget> {
   @override
   Widget build(BuildContext context) {
     bool isEmpty = widget.bannerData == null || widget.bannerData.length == 0;
-    return Container(
-      height: widget.height,
-      width: double.infinity,
-      child: isEmpty ? _noDataWidget() : _swiperWidget(),
-    );
+    return isEmpty
+        ? Container()
+        : Container(
+            height: widget.height,
+            width: double.infinity,
+            child: isEmpty ? _noDataWidget() : _swiperWidget(),
+          );
   }
 
   Widget _noDataWidget() {
