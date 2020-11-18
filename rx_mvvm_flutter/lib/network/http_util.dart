@@ -1,4 +1,6 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 class HttpUtil {
   // 工厂模式
@@ -21,9 +23,9 @@ class HttpUtil {
     _dio = new Dio(options);
     _dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
-      print("========================请求数据===================");
-      print("url=${options.uri.toString()}");
-      print("params=${options.data}");
+      debugPrint("========================请求数据===================");
+      debugPrint("url=${options.uri.toString()}");
+      debugPrint("params=${options.data}");
       _dio.lock();
       //  await SharedPreferencesUtils.getToken().then((token) {
       //     options.headers[Strings.TOKEN] = token;
@@ -32,12 +34,12 @@ class HttpUtil {
       _dio.unlock();
       return options;
     }, onResponse: (Response response) {
-      print("========================请求数据===================");
-      print("code=${response.statusCode}");
-      print("response=${response.data}");
+      debugPrint("========================请求数据===================");
+      debugPrint("code=${response.statusCode}");
+      debugPrint("response=${response.data}");
     }, onError: (DioError error) {
-      print("========================请求错误===================");
-      print("message =${error.message}");
+      debugPrint("========================请求错误===================");
+      debugPrint("message =${error.message}");
     }));
   }
 
@@ -62,7 +64,7 @@ class HttpUtil {
         response = await _dio.get(url, cancelToken: cancelToken);
       }
     } on DioError catch (e) {
-      print('postHttp exception: $e');
+      debugPrint('postHttp exception: $e');
       formatError(e);
     }
     return response.data;
@@ -87,7 +89,7 @@ class HttpUtil {
         response = await _dio.post(url, cancelToken: cancelToken);
       }
     } on DioError catch (e) {
-      print('postHttp exception: $e');
+      debugPrint('postHttp exception: $e');
       formatError(e);
     }
     return response.data;
@@ -100,9 +102,8 @@ class HttpUtil {
     try {
       response = await _dio.post(url,
           options: options, cancelToken: cancelToken, data: data);
-      print('postHttp response: $response');
     } on DioError catch (e) {
-      print('postHttp exception: $e');
+      debugPrint('postHttp exception: $e');
       formatError(e);
     }
     return response;
@@ -114,11 +115,10 @@ class HttpUtil {
     try {
       response = await _dio.download(urlPath, savePath,
           onReceiveProgress: (int count, int total) {
-        print('$count $total');
+        debugPrint('$count $total');
       });
-      print('downLoadFile response: $response');
     } on DioError catch (e) {
-      print('downLoadFile exception: $e');
+      debugPrint('downLoadFile exception: $e');
       formatError(e);
     }
     return response;
@@ -131,17 +131,17 @@ class HttpUtil {
 
   void formatError(DioError e) {
     if (e.type == DioErrorType.CONNECT_TIMEOUT) {
-      print("连接超时");
+      debugPrint("连接超时");
     } else if (e.type == DioErrorType.SEND_TIMEOUT) {
-      print("请求超时");
+      debugPrint("请求超时");
     } else if (e.type == DioErrorType.RECEIVE_TIMEOUT) {
-      print("响应超时");
+      debugPrint("响应超时");
     } else if (e.type == DioErrorType.RESPONSE) {
-      print("出现异常");
+      debugPrint("出现异常");
     } else if (e.type == DioErrorType.CANCEL) {
-      print("请求取消");
+      debugPrint("请求取消");
     } else {
-      print("未知错误");
+      debugPrint("未知错误");
     }
   }
 }

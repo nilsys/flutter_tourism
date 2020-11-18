@@ -34,6 +34,7 @@ class HomeCouponWidget extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Container(
+                  //color: Colors.orange,
                   alignment: Alignment.center,
                   width: ScreenUtil.instance.setWidth(200.0),
                   child: Text(
@@ -43,14 +44,12 @@ class HomeCouponWidget extends StatelessWidget {
                         color: Colors.grey),
                   ),
                 ),
-                Divider(
-                  color: Colors.grey,
-                  height: ScreenUtil.instance.setHeight(200.0),
-                ),
                 Expanded(
                   child: Container(
+                    //color: Colors.grey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(couponEntity.name),
                         Padding(

@@ -67,6 +67,7 @@ dependencies:
   equatable: ^1.2.5
   # UI框架
   weui: 0.0.5
+  common_utils: ^1.1.1
 
 dev_dependencies:
   flutter_test:

@@ -5,6 +5,7 @@ import 'package:rx_mvvm_flutter/constant/string.dart';
 import 'package:rx_mvvm_flutter/entity/home_entity.dart';
 import 'package:rx_mvvm_flutter/pages/home/home_category_menu_widget.dart';
 import 'package:rx_mvvm_flutter/pages/home/home_coupon_widget.dart';
+import 'package:rx_mvvm_flutter/pages/home/home_group_buy_widget.dart';
 import 'package:rx_mvvm_flutter/pages/home/home_swiper_widget.dart';
 import 'package:rx_mvvm_flutter/service/home_service.dart';
 import 'package:rx_mvvm_flutter/utils/utils_header.dart';
@@ -74,19 +75,34 @@ class _State extends State<HomePage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
+                    // 轮播图
                     HomeSwiperWidget(
                         bannerData: _homeData.banner,
                         height: ScreenUtil.instance.setHeight(360.0)),
                     Padding(
                       padding: EdgeInsets.only(top: 10.0),
                     ),
+                    // 分类
                     HomeCategoryMenuWidget(_homeData.channel),
+                    // 优惠券
                     Container(
-                      height: (_homeData.couponList == null || _homeData.couponList.length == 0) ? 0 : 40.0,
+                      height: (_homeData.couponList == null ||
+                              _homeData.couponList.length == 0)
+                          ? 0
+                          : 40.0,
                       alignment: Alignment.center,
                       child: Text(Strings.COUPON_AREA),
                     ),
                     HomeCouponWidget(_homeData.couponList),
+                    // 团购专区
+                    Container(
+                      height: 40.0,
+                      alignment: Alignment.center,
+                      child: Text(Strings.GROUP_BUG),
+                    ),
+                    HomeGroupBuyWidget(
+                      groupEntitys: _homeData.grouponList,
+                    )
                   ],
                 ),
               ),
