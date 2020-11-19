@@ -8,6 +8,7 @@ import 'package:rx_mvvm_flutter/pages/home/home_category_menu_widget.dart';
 import 'package:rx_mvvm_flutter/pages/home/home_coupon_widget.dart';
 import 'package:rx_mvvm_flutter/pages/home/home_group_buy_widget.dart';
 import 'package:rx_mvvm_flutter/pages/home/home_swiper_widget.dart';
+import 'package:rx_mvvm_flutter/pages/home/product_widget.dart';
 import 'package:rx_mvvm_flutter/service/home_service.dart';
 import 'package:rx_mvvm_flutter/utils/utils_header.dart';
 import 'package:rx_mvvm_flutter/widgets/dialog/dialog.dart';
@@ -78,7 +79,8 @@ class _State extends State<HomePage> {
                   children: <Widget>[
                     // 轮播图
                     HomeSwiperWidget(
-                        bannerData: _homeData.banner,// isEmpty(_homeData.banner)
+                        bannerData:
+                            _homeData.banner, // isEmpty(_homeData.banner)
                         height: ScreenUtil.instance.setHeight(360.0)),
                     Padding(
                       padding: EdgeInsets.only(top: 10.0),
@@ -101,12 +103,20 @@ class _State extends State<HomePage> {
                     HomeGroupBuyWidget(
                       groupEntitys: _homeData.grouponList,
                     ),
+                    // 品牌直购
                     Container(
                       height: 40.0,
                       alignment: Alignment.center,
                       child: Text(Strings.BRAND),
                     ),
                     HomeBrandWidget(brands: _homeData.brandList),
+                    // 新品
+                    Container(
+                      height: 40.0,
+                      alignment: Alignment.center,
+                      child: Text(Strings.NEW_PRODUCT),
+                    ),
+                    ProductWidget(_homeData.newGoodsList),
                   ],
                 ),
               ),
