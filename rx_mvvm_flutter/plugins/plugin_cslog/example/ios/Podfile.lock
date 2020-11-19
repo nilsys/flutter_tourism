@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - plugin_cslog (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - plugin_cslog (from `.symlinks/plugins/plugin_cslog/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  plugin_cslog:
+    :path: ".symlinks/plugins/plugin_cslog/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  plugin_cslog: b2413634d77ea6276ff20e71e0f3eaece36f599b
+
+PODFILE CHECKSUM: 8e679eca47255a8ca8067c4c67aab20e64cb974d
+
+COCOAPODS: 1.9.1

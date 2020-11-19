@@ -28,6 +28,7 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       platformVersion = await PluginCslog.platformVersion;
+      PluginCslog.d("PluginCslog message");
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
