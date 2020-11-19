@@ -1,6 +1,8 @@
 import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:plugin_cslog/plugin_cslog.dart';
+import 'package:plugin_cslog/plugin_cslog.dart';
 
 class HttpUtil {
   // 工厂模式
@@ -31,6 +33,10 @@ class HttpUtil {
       //     options.headers[Strings.TOKEN] = token;
       //     print("X-Litemall-Token=${options.headers[Strings.TOKEN]}");
       //   });
+      await PluginCslog.platformVersion.then((value) {
+        debugPrint("platformVersion=${value}");
+      });
+      PluginCslog.d("platformVersion = message");
       _dio.unlock();
       return options;
     }, onResponse: (Response response) {

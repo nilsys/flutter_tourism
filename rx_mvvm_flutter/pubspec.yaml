@@ -69,6 +69,9 @@ dependencies:
   weui: 0.0.5
   common_utils: ^1.1.1
 
+  plugin_cslog:
+    path: plugins/plugin_cslog
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
